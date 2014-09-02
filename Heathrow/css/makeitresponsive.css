@@ -1,0 +1,12 @@
+/* Here are the styles that makes the template responsive */
+
+@media only screen and (max-width: 768px) {
+  .map{position: inherit; height: 575px; width: 100%; display: block; }
+  .sidepanel{position: inherit; width: 100%;}
+  .logo{position:relative !important;margin:0 0 0 0 !important; left: 20px !important; bottom:0px !important;}
+}
+
+@media only screen and (max-width: 480px) {
+  .map {height: 475px;}
+  .logo{z-index:1001;position:relative !important;margin:0 0 0 0 !important;left: 0px !important; bottom:0px !important;}
+}

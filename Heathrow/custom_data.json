@@ -1,0 +1,25 @@
+,"color":"#5c0084","business":"Aggreko","line1":"Glasgow","line2":"World leader in interim power and temperature control facilities","line3":"@Aggreko_Intl"
+,"color":"#a77fbf","business":"Pinsent Masons LLP","line1":"Belfast","line2":"Legal Services","line3":"@PinsentMasons"
+,"color":"#884fa4","business":"Liverpool School of English","line1":"Liverpool","line2":"Offers English language provision to students from accross the world","line3":null
+,"color":"#a77fbf","business":"Bureau Veritas UK","line1":"Birmingham","line2":"Global leader in testing, inspection and certification services","line3":"@_BureauVeritas"
+,"color":"#bba9c9","business":"Outwrite","line1":"Mold, North Wales","line2":"PR and online marketing services","line3":"@outwritepr"
+,"color":"#500073","business":"Kawasaki Precision Machinery UK","line1":"Plymouth","line2":"Manufacturer of hydraulic components for construction and marine sectors","line3":null
+,"color":"#5c0084","business":"Simba Smoby Toys UK","line1":"Bradford","line2":"UK sales, marketing and distribution subsiduary of major EU toy manufacturer","line3":"@simba_dickie"
+,"color":"#d2bee2","business":"The Miller Partnership","line1":"Leicester","line2":"Specialist tax advisers","line3":"@PeteTaxMiller"
+,"color":"#a77fbf","business":"HiBreeds International Limited","line1":"Norwich","line2":"Unique independent supplier of high-quality poultry hatching eggs and chicks","line3":null
+,"color":"#d2bee2","business":"Octink","line1":"Brentford, London","line2":"Develops creative event environments and signage","line3":"@octink"
+,"color":"#884fa4","business":"Sound Moves UK","line1":"Ashford, Middlesex","line2":"International freight forwarders specialising in music and live events","line3":"@soundmovesuk"
+
+.subunit.scotland { fill: #5c0084; }
+.subunit.northernireland { fill: #a77fbf; }
+.subunit.northeast { fill: #d2bee2; }-
+.subunit.northwest { fill: #884fa4; }
+.subunit.westmidlands { fill: #a77fbf; }
+.subunit.wales { fill: #bba9c9; }
+.subunit.southwest { fill: #500073; }
+.subunit.yorkshireandthehumber { fill: #5c0084; }
+.subunit.eastmidlands { fill: #d2bee2; }
+.subunit.eastofengland { fill: #a77fbf; }
+.subunit.london { fill: #d2bee2; }
+.subunit.southeast { fill: #884fa4; }
+

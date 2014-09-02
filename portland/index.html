@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!--Edit the title of the page-->
+    <title>Your page title goes here</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
+@font-face {
+  font-family: 'interstate';
+  src: url('fonts/interstate/interstate.woff');
+
+}
+}
+      #map {
+        background: transparent;
+      }
+      #slider {
+        position: absolute;
+        top: 40px;
+        left:40px;
+        width: 30%;
+        z-index: 1001 !important;
+      }
+
+      #year {
+        font-family: serif;
+        font-size: 27px;
+        color: #f89c1b;
+        background-color: rgba(59,58,63,.5);
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        position: absolute;
+        top: 80px;
+        left: 40px;
+        z-index: 1001 !important;
+      }
+    #menu { position: absolute; top: 5px; left: 40px; width: 50%; height:60px; background: transparent; z-index:10;}
+    #menu a { 
+      margin: 15px 10px 0 0;
+      float: left;
+      vertical-align: top;
+      width: 70px;
+      padding: 10px;
+      text-align: center;
+      font: bold 11px "Helvetica",Arial;
+      line-height: normal;
+      color: #555;
+      border-radius: 4px;
+      border: 1px solid #777777;
+      background: #ffffff;
+      text-decoration: none;
+      cursor: pointer;
+      font-family: 'interstate' !important;
+    }
+    #menu a.selected,
+    #menu a:hover { 
+      color: #F84F40;
+    }
+    .cartodb-legend {
+      font-family: 'interstate' !important;
+    }
+    </style>
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.ie.css" />
+    <![endif]-->
+    <!--Switch between the different themes changing the stylesheet below - light-theme.css |dark-theme.css -->
+    <link rel="stylesheet" href="css/light-theme.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.ie.css" />
+    <![endif]-->
+  </head>
+  <body id = 'main'>
+
+    <div class="map" id="map">
+
+    <div class='cartodb-legend choropleth'> 
+<div class="legend-title">Commercial Court Users</div>
+<ul>
+  <li class="min">
+    0
+  </li>
+  <li class="max">
+    200
+  </li>
+  <li class="graph count_567">
+  <div class="colors">
+  <div class="quartile" style="background-color:#FFFFee"></div>
+  <div class="quartile" style="background-color:#ffffcc"></div>
+  <div class="quartile" style="background-color:#ffeda0"></div>
+  <div class="quartile" style="background-color:#fed976"></div>
+  <div class="quartile" style="background-color:#feb24c"></div>
+  <div class="quartile" style="background-color:#fd8d3c"></div>
+  <div class="quartile" style="background-color:#fc4e2a"></div>
+  <div class="quartile" style="background-color:#e31a1c"></div>
+  <div class="quartile" style="background-color:#b10026"></div>
+  </div>
+  </li>
+</ul>
+</div></div>
+    <div id="slider"></div>
+    <div id="year"></div>
+    <div id='menu'>
+    <a href="#2008" id="2008" class="button 2008 selected">2008-09</a>
+    <a href="#2009" id="2009" class="button 2009">2009-10</a>
+    <a href="#2010" id="2010" class="button 2010">2010-11</a>
+    <a href="#2011" id="2011" class="button 2011">2011-12</a>
+    <a href="#2012" id="2012" class="button 2012">2012-13</a>
+    <a href="#2013" id="2013" class="button 2013">2013-14</a>
+  </div>
+
+    <div class="sidepanel">
+      <div class="wrapper">
+        <div class="context subheader">
+          <p>Map created by <a href="#">{Link to your website}</a></p>
+        </div>
+        <h1>Title of your visualization</h1>
+        <p>An earthquake of magnitude 9.0 occurred March 11, 2012, off the northeastern Pacific coast of Japan. The earthquake was followed by a tsunami which would reach 9.3m or higher at Fukushima Prefecture. <a href=''>Combined, the two claimed almost</a> 20,000 lives in the region of Tohoku and triggered nuclear meltdowns at three reactors in Fukushima nuclear plant.</p>
+
+        <!--Copy and paste the div below for creating content blocks-->
+        <h3>Description</h3>
+        <p>The size and age of the Cosmos are beyond ordinary human understanding. Lost somewhere between immensity and eternity is our tiny planetary home. In a cosmic perspective, most human concerns seem insignificant, even petty. And yet our species is young and curious and brave and shows much promise. In the last few millennia we have made the most astonishing, unexpected discoveries about the Cosmos and our place within it, explorations that are exhilarating to consider. They remind us that humans have evolved to wonder, that understanding is a joy, that knowledge is prerequisite to survival. I believe our future depends powerfully on how well we understand this Cosmos in which we float like a mote of dust in the morning sky.</p>
+
+        <h3>Sources</h3>
+        <p>Unexpected discoveries about the <a href="#">Cosmos and our place</a> within it, explorations that are <a href="#">exhilarating</a> to consider. They remind us that humans have evolved to wonder, that understanding is a joy, that knowledge is prerequisite to survival. I believe our future depends powerfully on how well we understand this.</p>
+
+        <div class="context footer">
+          <p>Create your maps with ease using <a href="http://cartodb.com">CartoDB</a></p></p>
+        </div>
+      </div>
+    </div>
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <!--Change the URL below in order to change the map that is being shown.
+    Go to your map in CartoDB, click on share, and copy the URL undert the API section
+    Check the cartodb.js documentation for more info
+    http://developers.cartodb.com/documentation/cartodb-js.html-->
+    <script type="text/javascript">
+  //  function changeLegend(year) {
+    //  $('#year').html(year + " - " + (parseInt(year) + 1))
+    //}
+    /*function addTimeSlider(layer) {
+           $("#slider").slider({
+              min: 2008,
+              max: 2013,
+              step: 1,
+              value: 2008,
+              slide: function(event, ui) {
+                // give feedback to the user on slide change
+                changeLegend(ui.value);
+              },
+              stop: function( event, ui ) {
+                // when user selects the dates, update the layer with the range
+                var year = ui.value;
+                changeLegend(year);
+
+                if (year == '2008') {
+                  $('.leaflet-layer').fadeOut('slow');
+                  
+
+                  
+                  layer.getSubLayer(0).setCartoCSS('#commercial_court{polygon-fill: #ffffee;}#commercial_court[cyear1 > 0]{polygon-fill: #ffffcc;}#commercial_court[cyear1 > 1]{polygon-fill: #ffeda0;}#commercial_court[cyear1 > 5]{polygon-fill: #fed976;}#commercial_court[cyear1 > 15]{polygon-fill: #feb24c;}#commercial_court[cyear1 > 25]{polygon-fill: #fd8d3c;}#commercial_court[cyear1 > 50]{polygon-fill: #fc4e2a;}#commercial_court[cyear1 > 100]{polygon-fill: #e31a1c;}#commercial_court[cyear1 > 150]{polygon-fill: #b10026;}')
+                ;
+                $('.leaflet-layer').fadeIn('slow');
+                  //$('#map').fadeIn('slow');
+
+                }
+                if (year == '2009') {
+                  $('.leaflet-layer').fadeOut('slow');
+                  layer.getSubLayer(0).setCartoCSS('#commercial_court{polygon-fill: #ffffee;}#commercial_court[cyear2 > 0]{polygon-fill: #ffffcc;}#commercial_court[cyear2 > 1]{polygon-fill: #ffeda0;}#commercial_court[cyear2 > 5]{polygon-fill: #fed976;}#commercial_court[cyear2 > 15]{polygon-fill: #feb24c;}#commercial_court[cyear2 > 25]{polygon-fill: #fd8d3c;}#commercial_court[cyear2 > 50]{polygon-fill: #fc4e2a;}#commercial_court[cyear2 > 100]{polygon-fill: #e31a1c;}#commercial_court[cyear2 > 150]{polygon-fill: #b10026;}')
+                
+                  ;
+                  $('.leaflet-layer').fadeIn('fast');
+
+                }
+                if (year == '2010') {
+                  layer.getSubLayer(0).hide();
+                  layer.getSubLayer(0).setCartoCSS('#commercial_court{polygon-fill: #ffffee;}#commercial_court[cyear3 > 0]{polygon-fill: #ffffcc;}#commercial_court[cyear3 > 1]{polygon-fill: #ffeda0;}#commercial_court[cyear3 > 5]{polygon-fill: #fed976;}#commercial_court[cyear3 > 15]{polygon-fill: #feb24c;}#commercial_court[cyear3 > 25]{polygon-fill: #fd8d3c;}#commercial_court[cyear3 > 50]{polygon-fill: #fc4e2a;}#commercial_court[cyear3 > 100]{polygon-fill: #e31a1c;}#commercial_court[cyear3 > 150]{polygon-fill: #b10026;}')
+                .show();
+
+                }
+                if (year == '2011') {
+                  layer.getSubLayer(0).setCartoCSS('#commercial_court{polygon-fill: #ffffee;}#commercial_court[cyear4 > 0]{polygon-fill: #ffffcc;}#commercial_court[cyear4 > 1]{polygon-fill: #ffeda0;}#commercial_court[cyear4 > 5]{polygon-fill: #fed976;}#commercial_court[cyear4 > 15]{polygon-fill: #feb24c;}#commercial_court[cyear4 > 25]{polygon-fill: #fd8d3c;}#commercial_court[cyear4 > 50]{polygon-fill: #fc4e2a;}#commercial_court[cyear4 > 100]{polygon-fill: #e31a1c;}#commercial_court[cyear4 > 150]{polygon-fill: #b10026;}');
+
+                }
+                if (year == '2012') {
+                  layer.getSubLayer(0).hide();
+                  layer.getSubLayer(0).setCartoCSS('#commercial_court{polygon-fill: #ffffee;}#commercial_court[cyear5 > 0]{polygon-fill: #ffffcc;}#commercial_court[cyear5 > 1]{polygon-fill: #ffeda0;}#commercial_court[cyear5 > 5]{polygon-fill: #fed976;}#commercial_court[cyear5 > 15]{polygon-fill: #feb24c;}#commercial_court[cyear5 > 25]{polygon-fill: #fd8d3c;}#commercial_court[cyear5 > 50]{polygon-fill: #fc4e2a;}#commercial_court[cyear5 > 100]{polygon-fill: #e31a1c;}#commercial_court[cyear5 > 150]{polygon-fill: #b10026;}')
+                  .show();
+
+                }
+                if (year == '2013') {
+                  layer.getSubLayer(0).hide();
+                  layer.getSubLayer(0).setCartoCSS('#commercial_court{polygon-fill: #ffffee;}#commercial_court[cyear6 > 0]{polygon-fill: #ffffcc;}#commercial_court[cyear6 > 1]{polygon-fill: #ffeda0;}#commercial_court[cyear6 > 5]{polygon-fill: #fed976;}#commercial_court[cyear6 > 15]{polygon-fill: #feb24c;}#commercial_court[cyear6 > 25]{polygon-fill: #fd8d3c;}#commercial_court[cyear6 > 50]{polygon-fill: #fc4e2a;}#commercial_court[cyear6 > 100]{polygon-fill: #e31a1c;}#commercial_court[cyear6 > 150]{polygon-fill: #b10026;}')
+                  .show();
+
+                }
+
+
+              }
+            });
+         };
+*/      
+var datalayer;
+    function main() {
+        var map = new L.Map('map', {
+          zoomControl: false,
+          center: [43, 0],
+          zoom: 3,
+          fadeAnimation: true
+        });
+ 
+
+        
+
+        cartodb.createLayer(map, 'http://portland.cartodb.com/api/v2/viz/84d386fc-e23e-11e3-ae87-0e73339ffa50/viz.json', {
+          legends: true
+        })
+
+         .addTo(map)
+         .on('done', function(layer) {
+
+          //layer.getSubLayer(0).hide();
+          layer.setInteraction(true);
+          /*addTimeSlider(layer.getSubLayer(0));
+          layer.getSubLayer(0).setCartoCSS('#commercial_court {polygon-fill: #00ff00; polygon-opacity: 1;}')
+          changeLegend(2008);
+*/
+          layer.on('error', function(err) {
+            cartodb.log.log('error: ' + err);
+          });
+        }).on('error', function() {
+          cartodb.log.log("some error occurred");
+        });
+
+        var datalayer = cartodb.createLayer(map, {
+          user_name: 'portland',
+          type: 'cartodb',
+          sublayers: [{
+            sql: "SELECT * FROM commercial_court",
+            cartocss: '#commercial_court{polygon-fill: #ffffee;}#commercial_court[cyear1 > 0]{polygon-fill: #ffffcc;}#commercial_court[cyear1 > 1]{polygon-fill: #ffeda0;}#commercial_court[cyear1 > 5]{polygon-fill: #fed976;}#commercial_court[cyear1 > 15]{polygon-fill: #feb24c;}#commercial_court[cyear1 > 25]{polygon-fill: #fd8d3c;}#commercial_court[cyear1 > 50]{polygon-fill: #fc4e2a;}#commercial_court[cyear1 > 100]{polygon-fill: #e31a1c;}#commercial_court[cyear1 > 150]{polygon-fill: #b10026;}'
+          }
+        ]})
+        .addTo(map)
+        .on('done', function(layer) {
+       //   changeLegend(2008);
+               $('.button').click(function() {
+    
+    $('.button').removeClass('selected');
+    $(this).addClass('selected');
+    LayerActions[$(this).attr('id')]();
+    //changeLegend($(this).attr('id'));
+  });
+
+  var LayerActions = {
+    2008: function(){
+      layer.getSubLayer(0).setCartoCSS('#commercial_court{polygon-fill: #ffffee;}#commercial_court[cyear1 > 0]{polygon-fill: #ffffcc;}#commercial_court[cyear1 > 1]{polygon-fill: #ffeda0;}#commercial_court[cyear1 > 5]{polygon-fill: #fed976;}#commercial_court[cyear1 > 15]{polygon-fill: #feb24c;}#commercial_court[cyear1 > 25]{polygon-fill: #fd8d3c;}#commercial_court[cyear1 > 50]{polygon-fill: #fc4e2a;}#commercial_court[cyear1 > 100]{polygon-fill: #e31a1c;}#commercial_court[cyear1 > 150]{polygon-fill: #b10026;}');
+      return true;
+    },
+   2009: function(){
+      layer.getSubLayer(0).setCartoCSS('#commercial_court{polygon-fill: #ffffee;}#commercial_court[cyear2 > 0]{polygon-fill: #ffffcc;}#commercial_court[cyear2 > 1]{polygon-fill: #ffeda0;}#commercial_court[cyear2 > 5]{polygon-fill: #fed976;}#commercial_court[cyear2 > 15]{polygon-fill: #feb24c;}#commercial_court[cyear2 > 25]{polygon-fill: #fd8d3c;}#commercial_court[cyear2 > 50]{polygon-fill: #fc4e2a;}#commercial_court[cyear2 > 100]{polygon-fill: #e31a1c;}#commercial_court[cyear2 > 150]{polygon-fill: #b10026;}');
+      return true;
+    },
+    2010: function(){
+      layer.getSubLayer(0).setCartoCSS('#commercial_court{polygon-fill: #ffffee;}#commercial_court[cyear3 > 0]{polygon-fill: #ffffcc;}#commercial_court[cyear3 > 1]{polygon-fill: #ffeda0;}#commercial_court[cyear3 > 5]{polygon-fill: #fed976;}#commercial_court[cyear3 > 15]{polygon-fill: #feb24c;}#commercial_court[cyear3 > 25]{polygon-fill: #fd8d3c;}#commercial_court[cyear3 > 50]{polygon-fill: #fc4e2a;}#commercial_court[cyear3 > 100]{polygon-fill: #e31a1c;}#commercial_court[cyear3 > 150]{polygon-fill: #b10026;}');
+      return true;
+    },
+    2011: function(){
+      layer.getSubLayer(0).setCartoCSS('#commercial_court{polygon-fill: #ffffee;}#commercial_court[cyear4 > 0]{polygon-fill: #ffffcc;}#commercial_court[cyear4 > 1]{polygon-fill: #ffeda0;}#commercial_court[cyear4 > 5]{polygon-fill: #fed976;}#commercial_court[cyear4 > 15]{polygon-fill: #feb24c;}#commercial_court[cyear4 > 25]{polygon-fill: #fd8d3c;}#commercial_court[cyear4 > 50]{polygon-fill: #fc4e2a;}#commercial_court[cyear4 > 100]{polygon-fill: #e31a1c;}#commercial_court[cyear4 > 150]{polygon-fill: #b10026;}');
+      return true;
+    },
+    2012: function(){
+      layer.getSubLayer(0).setCartoCSS('#commercial_court{polygon-fill: #ffffee;}#commercial_court[cyear6 > 0]{polygon-fill: #ffffcc;}#commercial_court[cyear6 > 1]{polygon-fill: #ffeda0;}#commercial_court[cyear6 > 5]{polygon-fill: #fed976;}#commercial_court[cyear6 > 15]{polygon-fill: #feb24c;}#commercial_court[cyear6 > 25]{polygon-fill: #fd8d3c;}#commercial_court[cyear6 > 50]{polygon-fill: #fc4e2a;}#commercial_court[cyear6 > 100]{polygon-fill: #e31a1c;}#commercial_court[cyear6 > 150]{polygon-fill: #b10026;}');
+      return true;
+    },
+    2013: function(){
+      layer.getSubLayer(0).setCartoCSS('#commercial_court{polygon-fill: #ffffee;}#commercial_court[cyear6 > 0]{polygon-fill: #ffffcc;}#commercial_court[cyear6 > 1]{polygon-fill: #ffeda0;}#commercial_court[cyear6 > 5]{polygon-fill: #fed976;}#commercial_court[cyear6 > 15]{polygon-fill: #feb24c;}#commercial_court[cyear6 > 25]{polygon-fill: #fd8d3c;}#commercial_court[cyear6 > 50]{polygon-fill: #fc4e2a;}#commercial_court[cyear6 > 100]{polygon-fill: #e31a1c;}#commercial_court[cyear6 > 150]{polygon-fill: #b10026;}');
+      return true;
+    }
+  }
+
+ 
+        }).on('error', function() {
+          cartodb.log.log("An error occurred.");
+        })
+
+    
+      }
+
+      window.onload = main;
+
+      /*
+      cartodb.createVis('map', 'http://portland.cartodb.com/api/v2/viz/84d386fc-e23e-11e3-ae87-0e73339ffa50/viz.json',{
+        tiles_loader: true
+      })
+      .done(function(vis, layers) {
+        layer = layers[1];
+        layer.createSubLayer({
+        sql: 'SELECT * FROM commercial-court',
+        cartocss: '#layer {polygon-fill: #FFF; polygon-opacity: 1;}'
+      })
+      });
+      */
+    </script>
+
+  </body>
+      </html>

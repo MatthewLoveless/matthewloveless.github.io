@@ -1,0 +1,104 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <style>
+      #map {
+        height: 450px;
+        width:500px;
+        left:170px;
+        position:absolute;
+      }
+      .ui-control {
+        font:bold 12px/20px 'Helvetica', sans-serif;
+        background:#404040;
+        color:#fff;
+        position:absolute;
+        top:0;left:0;
+        z-index:100;
+        width:150px;
+        height: 430px;
+        padding:10px;
+       }
+      .ui-control label {
+        text-transform:uppercase;
+        display:block;
+        font-weight:bold;
+        color:rgba(255,255,255,0.5);
+        margin-bottom:5px;
+        }
+      .ui-control strong {
+        font-size:32px;
+        line-height:38px;
+        }
+    </style>
+
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+  </head>
+  <body>
+    <div id='info' class='ui-control'></div>
+    <div id="map"></div>
+
+ 
+    <!-- include cartodb.js libraryds -->
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+
+
+    <script>
+     
+      var info = document.getElementById('info');   
+      var cons = 634;
+      var mapboxTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/portland.injn5k2h/{z}/{x}/{y}.png');
+      var map = new L.Map('map', {
+                center: [54.7761,-1.5733],
+                zoom: 6,
+                zoomControl: false,
+                maxZoom: 13,
+                minZoom:9
+                }).addLayer(mapboxTiles);
+
+        cartodb.createLayer(map, 'http://portland.cartodb.com/api/v2/viz/a143eb22-324a-11e4-8c9a-0edbca4b5057/viz.json')
+          .addTo(map)
+          .on('done', function(layer) {
+          // layer 0 is the base layer, layer 1 is cartodb layer
+          // setInteraction is disabled by default
+          layer.setInteraction(false);
+
+          }
+          
+
+
+          
+          
+          /*layer.on('featureClick', function(e, pos, latlng, data) {
+            
+          info.innerHTML = '<label>Number of Bookies</label><strong>' + result + '</strong>';
+        } );*/
+  
+        );
+mapzoom (cons, map);
+function mapzoom (target, maparea) {
+    var sql = new cartodb.SQL({ user: 'portland' });
+    var query = "select * from bylb_uk_cons_data where cartodb_id =" + target;
+    sql.getBounds(query).done(function(bounds) {
+            map.fitBounds(bounds)
+          });
+    sql.execute(query).done(function(panel) {
+            info.innerHTML = '<h3>Your Community</h3><label>Constituency:</label><span>' + panel.rows[0].constituency + '</span><label>Number of Bookies:</label><span>' + panel.rows[0].offices + '</span><label>Employees:</label><span>' + panel.rows[0].employees + '</span><label>Member of Parliament:</label><span>' + panel.rows[0].mp + '</span><label>Party:</label><span>' + panel.rows[0].party + '</span>';
+          });
+cartodb.createLayer(maparea, {
+  user_name: 'portland',
+  type: 'cartodb',
+  sublayers: [{
+    sql: query,
+    cartocss: '#table_name {line-color: #903795;line-width:2;line-smooth:.5;line-join: round;line-cap: round;}#table_name::glow {line-join: round;line-cap: round;line-color: #903795;line-opacity: 0.5;line-width: 6; line-smooth:.5;}'
+  }]
+})
+.addTo(maparea)
+  }
+          
+
+
+
+    </script>
+  </body>
+</html>

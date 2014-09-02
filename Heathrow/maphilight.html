@@ -1,0 +1,28 @@
+<html><head>
+	<meta charset="utf-8">
+	<title>jQuery maphilight documentation</title>
+
+	 <script type="text/javascript" src="http://davidlynch.org/projects/maphilight/jquery.maphilight.js"></script>
+	<script type="text/javascript">$(function() {
+		$('.map').maphilight({fade: false});
+	});</script>
+</head>
+<body style="zoom: 1;">
+
+<div style="float: left">
+    <img id="ImageMap1" src="http://geographyandhistory.wikispaces.com/file/view/solar_system.jpg/43347125/283x202/solar_system.jpg" usemap="#ImageMapmapAreas" />
+    <map id="ImageMapmapAreas" name="ImageMapmapAreas">
+        <area alt="" title="" href="#Earth" coords="228,151,53" shape="circle" data-maphilight='{"strokeColor":"0000ff","strokeWidth":5,"fillColor":"00ff00","fillOpacity":0.6}'/>
+        <area alt="" title="" href="#Sun" coords="68,54,44" shape="circle" data-maphilight="{'strokeColor':'0000ff','strokeWidth':5,'fillColor':'00ff00','fillOpacity':0.6}"/>
+    </map>
+    <script type="text/javascript">
+    jQuery(function()
+                            {
+             jQuery('#ImageMap1').maphilight();
+                            });
+
+    </script>
+</div>
+
+
+</body></html>

@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="bootstrap.min.css">
+<script src="jquery-1.11.1.min.js"></script>
+<script src="jquery-migrate-1.2.1.min.js"></script>
+<!-- Optional theme -->
+<link rel="stylesheet" href="bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="bootstrap.min.js"></script>
+<script src="jquery.simplemodal.1.4.4.min.js"></script>
+<script src="detectmobilebrowser.js"></script>
+<script src="jQuery-maphilight.js"></script>
+<script src="jQuery-rwdImageMaps.js"></script>
+<!--[if lte IE 9]>
+  <link rel="stylesheet" type="text/css" href="ie8.css"/>
+<![endif]-->
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://d3js.org/topojson.v1.min.js"></script> 
+</head>
+<style>
+
+body, html {
+  height: 100%;
+
+}
+
+.subunit.scotland { fill: #5c0084; }
+.subunit.northernireland { fill: #a77fbf; }
+.subunit.northeast { fill: #d2bee2; }
+.subunit.northwest { fill: #884fa4; }
+.subunit.westmidlands { fill: #a77fbf; }
+.subunit.wales { fill: #bba9c9; }
+.subunit.southwest { fill: #500073; }
+.subunit.yorkshireandthehumber { fill: #5c0084; }
+.subunit.eastmidlands { fill: #d2bee2; }
+.subunit.eastofengland { fill: #a77fbf; }
+.subunit.london { fill: #d2bee2; }
+.subunit.southeast { fill: #884fa4; }
+.irl {fill: #ccc;}
+.tooltip-map {
+        -moz-transition: all 0.15s;
+        -o-transition: all 0.15s;
+        -webkit-transition: all 0.15s;
+        transition: all 0.15s;
+        opacity: 1;
+        position: absolute;
+        min-width: 60px;
+        height: auto;
+        padding: 10px;
+        max-width: 225px;
+        color:#000;
+        background:#fff;
+        border-width:1px;
+        border-style:solid;
+        border-color:##5c0084;                          
+        right: 20px;     
+        top: 20px;
+        z-index: 1001;
+      }      
+      .tooltip-map img {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      .tooltip-map p {
+        margin: 0;
+        font-family: Arial;
+        font-size: 12px;
+        line-height: 15px;
+        margin-bottom: 10px;
+      }
+      .tooltip-map p:last-child {
+        margin-bottom: 0;
+        margin-left: 1.5em;
+      }
+      .tooltip-map h3 {
+        color: #5c0084;
+        margin: 0;
+        font-family: Arial;
+        font-size: 16px;
+        line-height: 20px;
+        margin-bottom: 10px;
+     }  
+.tooltip-d3 {
+        -moz-transition: all 0.15s;
+        -o-transition: all 0.15s;
+        -webkit-transition: all 0.15s;
+        transition: all 0.15s;
+        opacity: 1;
+        position: absolute;
+        min-width: 60px;
+        height: auto;
+        padding: 10px;
+        max-width: 225px;
+        color:#000;
+        background:#fff; /* default background for browsers without gradient support */
+  /* css3 */
+
+        border-width:1px; /* vary these values to change the angle of the vertex */
+        border-style:solid;
+        border-color:##5c0084;
+
+
+      }     
+
+      .tooltip-d3.hidden {
+        display: none;
+      }   
+      .tooltip-d3 img {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      .tooltip-d3 p {
+        margin: 0;
+        font-family: Arial;
+        font-size: 12px;
+        line-height: 15px;
+        margin-bottom: 10px;
+      }
+      .tooltip-d3 p:last-child {
+        margin-bottom: 0;
+      }
+      .tooltip-d3 h3 {
+        color: #5c0084;
+        margin: 0;
+        font-family: Arial;
+        font-size: 16px;
+        line-height: 20px;
+        margin-bottom: 10px;
+     }  
+.map {
+position: absolute;
+height: 100%;
+/*max-width: 860px;*/
+width: 100%;
+  background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPgo8cmFkaWFsR3JhZGllbnQgaWQ9Imc1MzQiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiBjeD0iNTAlIiBjeT0iNTAlIiByPSI3NSUiPgo8c3RvcCBzdG9wLWNvbG9yPSIjRkZGRkZGIiBvZmZzZXQ9IjIwJSIvPjxzdG9wIHN0b3AtY29sb3I9IiNBRUI2QkQiIG9mZnNldD0iMTAwJSIvPgo8L3JhZGlhbEdyYWRpZW50Pgo8cmVjdCB4PSItNTAiIHk9Ii01MCIgd2lkdGg9IjEwMSIgaGVpZ2h0PSIxMDEiIGZpbGw9InVybCgjZzUzNCkiIC8+Cjwvc3ZnPg==);
+
+}
+img.fullbackground{
+    position:absolute;
+    z-index:-1;
+    top:0;
+    left:0;
+    width:100%; /* alternative: right:0; */
+    height:100%; /* alternative: bottom:0; */
+    border-width: 0px;
+}
+.map svg {
+  position: relative;
+}
+
+map area {
+outline:none;
+}
+#map-container {
+/*max-width: 860px;*/
+width: 50%;
+position: relative;
+  margin: 0 auto;
+height: auto;
+display: none;
+max-height: 100%;
+    }
+.img-respond{
+
+  position: relative;
+  width: auto;
+  height: auto;
+  max-height: 100%;
+}
+.subunit.active {
+  
+  stroke-opacity:.2;
+  stroke:#5c0084;
+  stroke-width:1px;
+  fill: #fff;
+}
+.tooltipbutton {
+  width: 20px;
+  position: absolute;
+  right:-10px;
+  top:-10px;
+    
+
+}
+.title {
+  position: absolute;
+  left:10px;
+  top:10px;
+  background-color: #5c0084;
+  color: #fff;
+  opacity: .7;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+  max-width: 225px;
+  padding: 12px 16px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  font-size: 1.2em;
+  height: auto;
+  z-index: 1;
+
+/*  background-image: url("terminal.png");
+  background-size: 100%;*/
+}
+.title img {
+  width: 100%;
+}
+.title strong {
+  display: inline-block;
+  margin-bottom: 6px;
+  max-width: 225px;
+}
+.mainlogo {
+  display: none;
+  position: absolute;
+  right:20px;
+  bottom:10px;
+  width:25%;
+}
+
+
+#basic-modal-content {display:none;}
+
+/* Overlay */
+#simplemodal-overlay {background-color:#000;}
+
+/* Container */
+#simplemodal-container {
+  
+  width:90%;
+  height:auto !important;
+  top: 40px !important;
+  color:#000;
+  background:#fff; 
+  border-width:1px; 
+  border-style:solid;
+  border-color:##5c0084;
+  padding:10px;}
+
+        #simplemodal-container .regionimage {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      #simplemodal-container p {
+        margin: 0;
+        font-family: Arial;
+        font-size: 12px;
+        line-height: 15px;
+        margin-bottom: 10px;
+      }
+      #simplemodal-container p:last-child {
+        margin-bottom: 0;
+        clear: both;
+      }
+      #simplemodal-container h3 {
+        color: #5c0084;
+        margin: 0;
+        font-family: Arial;
+        font-size: 16px;
+        line-height: 20px;
+        margin-bottom: 10px;
+      }
+
+#simplemodal-container a {color:#ddd;}
+#simplemodal-container a.modalCloseImg {background:url("close_small.png") no-repeat; width:80px; height:80px; display:inline-block; z-index:3200; position:absolute; top:-40px; right:-16px; cursor:pointer;}
+
+
+
+
+/*
+.tooltip:after {
+  content:"";
+  position:absolute;
+  bottom:-20px; 
+  left:40px; 
+  border-width: 20px 20px 0 0; 
+  border-style:solid;
+  border-color:#fff transparent;
+  display:block;
+  width:0;
+}
+*/
+text {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  pointer-events: none;
+  color: #fff; text-shadow: black 0.1em 0.1em 0.2em;
+  fill:#fff;
+}
+
+</style>
+<body id='body'>
+<div id="basic-modal-content">
+     
+    </div>
+    <div id="tooltip-scotland" class="tooltip-map">
+                     <input type="image" src="close.png" class="tooltipbutton" id="close" />
+                    <div>
+                      <h3>Scotland</h3>
+                      <img src="content-images/scotland.jpg" alt="Scotland">
+                      <p>Heathrow currently has air links to Aberdeen, Edinburgh and Glasgow.</p><p>
+              More runway capacity could also enable flights to Inverness.</p><p>
+              <em>"Glasgow Airport's connections to the UK's hub airport at Heathrow are vitally important for the local economy. Expansion at Heathrow would provide the additional hub capacity required to connect Glasgow businesses to the emerging markets they need to generate future growth."</em></p><p>
+              <strong>-Stuart Patrick</strong>, Chief Executive, Glasgow Chamber of Commerce</p>
+                    </div>
+      
+    </div>
+<div id="tooltip-northernireland" class="tooltip-map">
+      
+ <input type="image" src="close.png" class="tooltipbutton" id="close" />
+                    <div>
+                      <h3>Northern Ireland</h3>
+                      <img src="content-images/northern-ireland.jpg" alt="Northern Ireland">
+      <p>Heathrow currently has air links to Belfast.</p><p>
+              <em>"The route between Belfast and Heathrow is vital for the local economy, with Oxford Economics estimating these flights currently generate 900 jobs in Northern Ireland. An expanded Heathrow with improved connectivity to growth markets would further improve the attractiveness of Northern Ireland to global investors."</em></p><p>
+              <strong>-Ann McGregor</strong>, Chief Executive, Northern Ireland Chamber of Commerce</p>
+            </div>
+      
+    </div>
+<div id="tooltip-northeast" class="tooltip-map">
+      
+ <input type="image" src="close.png" class="tooltipbutton" id="close" />
+                    <div>
+                      <h3>North East</h3>
+                      <img src="content-images/north-east.jpg" alt="North East">
+      <p>Heathrow currently has air links to Newcastle. The top five destinations from Newcastle via Heathrow are New York JFK, Miami, Hong Kong, Los Angeles and Newark.</p><p>
+              Rail journey times from the North East to Heathrow will be reduced by HS2.
+              </p><p><em>"Only an expanded Heathrow can provide the hub capacity required to connect North East businesses to fast growing emerging markets."</em></p><p>
+              <strong>-Mark Stephenson</strong>, Policy and Research Manager, North East Chamber of Commerce</p>
+      
+    </div>
+  </div>
+<div id="tooltip-northwest" class="tooltip-map">
+      
+ <input type="image" src="close.png" class="tooltipbutton" id="close" />
+                    <div>
+                      <h3>North West</h3>
+                      <img src="content-images/north-west.jpg" alt="North West">
+     <p>Heathrow currently has air links to Manchester. The top five destinations from Manchester via Heathrow are New York JFK, Hong Kong, Los Angeles, Miami and Mumbai.</p><p>
+              More runway capacity could also enable flights to Liverpool.</p><p>
+              Rail journey times from the North West to Heathrow will be reduced significantly as a result of HS2.</p><p>
+              <em>"The School relies on Heathrow to attract students from across the world with new routes to China and the Far East vital for our future expansion."</em></p><p>
+              <strong>-Anna Goodband</strong>, Principal, Liverpool School of English"
+            gor</strong>, Chief Executive, Northern Ireland Chamber of Commerce</p>
+            </div>
+      
+    </div>
+<div id="tooltip-london" class="tooltip-map">
+      
+ <input type="image" src="close.png" class="tooltipbutton" id="close" />
+                    <div>
+                      <h3>London</h3>
+                      <img src="content-images/london.jpg" alt="London">
+      <p>Crossrail will provide high-speed links from the West End, the City, Canary Wharf and East London.</p><p>
+              An upgrade to the Piccadilly Line will increase capacity.</p><p>
+              <em>"Octink heavily benefits from our proximity to Heathrow with expansion of the airport presenting significant new opportunities for us to grow."</em></p><p>
+              <strong>-Mike Freely</strong>, Managing Director, Octink</p>
+
+            </div>
+      
+    </div>
+<div id="tooltip-westmidlands" class="tooltip-map">
+      
+ <input type="image" src="close.png" class="tooltipbutton" id="close" />
+                    <div>
+                      <h3>West Midlands</h3>
+                      <img src="content-images/west-midlands.jpg" alt="West Midlands">
+              <p>Rail journey times from the West Midlands to Heathrow will be reduced significantly by HS2.</p><p>
+              <em>"An expanded Heathrow would create significant benefits through improved connectivity which would ultimately improve our global offering."</em></p><p>
+              <strong>-Paul Barry</strong>, Chief Executive: North West Europe, Bureau Veritas</p>
+
+            </div>
+      
+    </div>
+<div id="tooltip-yorkshireandthehumber" class="tooltip-map">
+      
+ <input type="image" src="close.png" class="tooltipbutton" id="close" />
+                    <div>
+                      <h3>Yorkshire and the Humber</h3>
+                      <img src="content-images/yorkshire-and-the-humber.jpg" alt="Yorkshire and the Humber">
+              <p>Heathrow currently has air links to Leeds Bradford airport. The top five destinations from Leeds Bradford via Heathrow are: New York JFK, Hong Kong, Los Angeles, Madrid Barajas and Chicago O'Hare.</p><p>
+              More runway capacity could also enable flights to Humberside.</p><p>
+              Rail journey times from Yorkshire and the Humber to Heathrow will be reduced significantly as a result of HS2.</p><p>
+              <em>"A bigger Heathrow would increase the range of growth markets that firms from my constituency, and across Leeds and West Yorkshire, can access throughout the world, boosting jobs and growth."</em></p><p>
+              <strong>-Fabian Hamilton MP</strong> (Lab, Leeds North East)</p>
+
+            </div>
+      
+    </div>
+<div id="tooltip-southwest" class="tooltip-map">
+      
+ <input type="image" src="close.png" class="tooltipbutton" id="close" />
+                    <div>
+                      <h3>South West</h3>
+                      <img src="content-images/south-west.jpg" alt="South West">
+              <p>More runway capacity could enable flights to Exeter and Newquay.</p><p>
+              Western Rail Access will reduce rail journey time from the South West.</p><p>
+              <em>"It will increase the opportunity to increase potential regional flights in the longer term from the South West using Heathrow as a hub airport."</em></p><p>
+              <strong>-Tudor Evans</strong>, Leader, Plymouth City Council</p>
+            </div>
+      
+    </div>
+<div id="tooltip-eastmidlands" class="tooltip-map">
+      
+ <input type="image" src="close.png" class="tooltipbutton" id="close" />
+                    <div>
+                      <h3>East Midlands</h3>
+                      <img src="content-images/east-midlands.jpg" alt="East Midlands">
+              <p>Rail journey times from the East Midlands to Heathrow will be reduced significantly by HS2.</p><p>
+              <em>"While based in Leicester, our clients are from all over the UK with many of them relying on Heathrow for access to international markets."</em></p><p>
+              <strong>-Pete Miller</strong>, Partner, The Miller Partnership</p>
+            </div>
+      
+    </div>
+<div id="tooltip-southeast" class="tooltip-map">
+      
+ <input type="image" src="close.png" class="tooltipbutton" id="close" />
+                    <div>
+                      <h3>South East</h3>
+                      <img src="content-images/south-east.jpg" alt="South East">
+              <p>Western Rail Access will provide direct services to Reading, Slough, Maidenhead and Twyford as well as reducing journey time from Oxford.</p><p>
+              Southern Rail Access will connect Heathrow to Surrey, Hampshire and the South Coast.</p><p>
+              <em>"It is imperative we recognise the inherent advantages Heathrow has as a world-class, global airfreight hub and the unique benefits this brings, not just to the South East of England but to Britain as a hole."</em></p><p>
+              <strong>-Ian Veltch</strong>, President, Freight Transport Association</p>
+            </div>
+      
+    </div>
+<div id="tooltip-eastofengland" class="tooltip-map">
+      
+ <input type="image" src="close.png" class="tooltipbutton" id="close" />
+                    <div>
+                      <h3>East of England</h3>
+                      <img src="content-images/east-of-england.jpg" alt="East of England">
+              <p>Crossrail will provide a high-speed link with Heathrow.</p><p>
+              <em>"An expanded Heathrow would create new growth opportunities for businesses in Norfolk through better connections to emerging markets."</em></p><p>
+              <strong>-Caroline Williams</strong>, Chief Executive, Norfolk Chamber of Commerce</p>
+
+            </div>
+      
+    </div>
+<div id="tooltip-wales" class="tooltip-map">
+      
+ <input type="image" src="close.png" class="tooltipbutton" id="close" />
+                    <div>
+                      <h3>Wales</h3>
+                      <img src="content-images/wales.jpg" alt="Wales">
+              <p>Journey times between Wales and Heathrow will be reduced by Western Rail Access.</p><p>
+              More runway capacity could also enable flights to Cardiff.</p><p>
+              <em>"While our business is based in North Wales, we would welcome the expansion of the UK's hub airport for the wider economic benefits it would bring to our region."</em></p><p>
+              <strong>-Tracy North</strong>, Managing Director, Outwrite</p>
+
+
+            </div>
+      
+    </div>
+  <div id="tooltip-d3" class="hidden tooltip-d3">
+      <p><span id="countyPop-label"></span>"Text"
+        ::after</p>
+    </div>
+<div id="map" class="map">
+    <img class="fullbackground" src="background-gradient.png" />
+  <div id ="title" class='title'><strong>Connecting the whole of the UK</strong><p>Tap on each region to find out how the whole country is connected to Heathrow.</p>
+    <img class="title-img" src="terminal.png">
+    </div>
+<img class='mainlogo' src="heathrow-01.png">
+  <div id="map-container" >
+
+ <map id="imagemap" name="imagemap"><area shape="poly" alt="London" title="London" id="london" coords="706,1065,706,1086,730,1100,752,1104,761,1078,771,1069,757,1057,745,1062,733,1052,721,1062" href="#london" /><area shape="poly" id="southeast" alt="South East" title="South East" coords="846,1081,809,1093,789,1072,762,1079,750,1109,696,1084,692,1000,673,1021,646,1028,638,1013,622,1031,622,1031,619,1075,634,1103,620,1119,628,1143,605,1143,621,1176,657,1190,694,1176,768,1176,837,1132,854,1110" href="#southeast" /><area shape="poly" alt="South West" id= "southwest" title="South West" coords="273,1261,324,1241,366,1214,391,1172,410,1132,442,1107,508,1111,544,1078,550,1040,565,1041,563,1026,576,1030,600,1023,612,1010,619,1026,615,1081,630,1101,609,1122,620,1136,600,1138,614,1175,605,1192,566,1194,534,1176,497,1194,497,1224,483,1242,441,1225,409,1228,379,1266,359,1259,348,1249,331,1261,313,1260,283,1267" href="#southwest" /><area shape="poly" alt="East of England" id="eastofengland" title="East of England" coords="754,918,780,888,842,906,854,935,852,984,850,999,850,999,819,1050,808,1072,785,1070,767,1075,773,1067,759,1054,746,1058,731,1047,704,1062,694,1003,712,971,700,951,740,942,751,929" href="#eastofengland"/><area shape="poly" id="eastmidlands" alt="East Midlands" title="East Midlands" coords="734,837,754,869,751,903,742,912,747,922,741,936,715,947,692,953,703,974,694,995,674,1010,652,1023,647,1010,653,981,626,959,618,934,605,918,598,886,591,857,598,850,625,874,664,856,688,845,709,836" href="#eastmidlands"/><area shape="poly" id="westmidlands" alt="West Midlands" title="West Midlands" coords="534,922,540,920,545,916,541,909,553,912,566,911,573,894,594,882,599,919,616,938,622,961,647,980,643,1013,633,1008,624,1025,609,1003,602,1019,575,1026,557,1022,559,1038,544,1040,527,1031,518,1020,516,1004,527,994,527,986,509,977,527,973,519,958,530,943,514,931,525,918" href="#westmidlands" /><area shape="poly" id="wales" alt="Wales" title="Wales" coords="513,875,538,910,535,917,516,919,505,936,521,948,512,973,498,984,517,993,506,1017,526,1047,541,1050,535,1078,515,1096,483,1096,461,1071,442,1083,419,1065,386,1081,359,1070,357,1031,433,992,435,936,395,951,417,906,399,871,410,859" href="#wales"/><area shape="poly" alt="North West" title="North West" id="northwest" coords="475,748,500,798,514,793,508,851,501,872,515,870,520,884,538,908,560,907,576,883,587,881,586,856,593,847,580,826,587,814,549,782,567,767,569,747,582,736,563,723,559,696,548,699,551,672,535,659,515,677,494,691,478,726,472,736" href="#northwest" /><area shape="poly" alt="Yorkshire and the Humber" title="Yorkshire and the Humber" id="yorkshireandthehumber" coords="672,724,709,760,726,791,740,835,701,833,623,870,600,851,586,831,594,813,553,782,577,768,572,745,573,751,583,739,593,744,601,735,625,737,641,737,661,732,665,728" href="#yorkshireandthehumber" /><area shape="poly" id="northeast" alt="North East" title="North East" coords="584,586,607,606,614,633,626,672,638,704,662,722,646,732,596,732,592,740,569,722,560,699,556,686,549,692,553,667,542,655,576,620,561,603,577,589,577,589" href="#northeast" /><area shape="poly" alt="Scotland" title="Scotland" id="scotland" coords="460,711,504,680,537,652,573,616,558,605,552,602,554,601,582,582,540,555,503,564,540,537,548,525,531,514,570,475,596,381,577,355,462,370,476,340,473,328,534,272,555,208,657,78,647,-3,589,5,459,249,369,254,260,277,160,347,218,480,287,605,314,626,330,617,327,651,358,649,370,702,393,732,442,718" href="#scotland" /><area shape="poly" alt="Northern Ireland" id="northernireland" title="Northern Ireland" coords="328,793,371,748,356,701,309,640,249,652,216,685,184,720,159,746,180,778,228,787,252,758,264,794,295,795" href="#nothernireland"/><!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) --></map>
+<img alt="United Kingdom" src="uk-airport.png" usemap="#imagemap" id="UKImg" class="maphilighted img-respond">
+</div>
+</div>
+
+
+
+
+<script>
+
+var IE8 = (navigator.userAgent.toString().toLowerCase().indexOf('trident/4.0') != -1);
+var IE9 = (navigator.userAgent.toString().toLowerCase().indexOf('trident/5.0') != -1);
+if(IE8 == false && IE9 == false) {
+  $(".tooltip-map").hide();
+var margin = {top: 10, left: 10, bottom: 10, right: 10}
+  , height = parseInt(d3.select('#map').style('height'))
+  , height = height - margin.top - margin.bottom
+  //, mapRatio = .8
+  , width = parseInt(d3.select('#map').style('width'))
+  , width = width - margin.left - margin.right
+  ,scale
+  ,centered;
+
+var projection = d3.geo.albers()
+    .center([1, 55.4])
+    .rotate([4.4, 0])
+    .parallels([50, 60])
+    .scale(height * 5)
+    .translate([width / 2, height / 2]);
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var svg = d3.select("#map").append("svg")
+    .attr("height", height + 'px')
+    .attr("width", width+ 'px');
+        if (parseInt(d3.select('#map').style('width')) <= 780 || jQuery.browser.mobile) {
+          $(".title-img").addClass("hidden");
+  
+        }
+          if (parseInt(d3.select('#map').style('width')) > 780) {
+          $(".title-img").removeClass("hidden");
+  
+        }
+
+                   
+d3.json("uk.json", function(error, uk) {
+     svg.selectAll(".subunit")
+      .data(topojson.feature(uk, uk.objects.subunits).features)
+      .enter().append("path")
+      .attr("class", function(d) { return "subunit " + d.properties.name.replace(/\s+/g, '').toLowerCase(); })
+      .attr("id", function(d) { return d.properties.name.replace(/\s+/g, '').toLowerCase(); })
+      .attr("d", path)
+      .on("click", clicked);
+     svg.append("defs")
+                  .append('pattern')
+                    .attr('id', 'image')
+                    .attr('width', '100%')
+                    .attr('height', '100%')
+                    .attr('patternContentUnits', 'objectBoundingBox')
+                   .append("image")
+                    .attr("xlink:href", "airport.svg")
+                    .attr('width', 1)
+                    .attr('height', 1)
+                    .attr('preserveAspectRatio', 'none')
+                    ;
+    svg.selectAll(".irl")
+      .data(topojson.feature(uk, uk.objects.irl).features)
+      .enter().append("path")
+      .attr("class", "irl")
+      .attr("d", path);
+     /*svg.append("path")
+      .data(topojson.feature(uk, uk.objects.railways).features)
+      .attr("class", "arc")
+      .attr("d", path);
+
+     svg.append("path")
+      .data(topojson.feature(uk, uk.objects.railways).features)
+      .attr("class", "cross")
+      .attr("d", path);*/
+     svg.append("path")
+      .datum(topojson.feature(uk, uk.objects.heathrow))
+      .attr("d", path.pointRadius(height * .02))
+      .attr("class", "heathrow")
+      .style("fill", "url(#image)");
+     svg.append("path")
+     /*svg.selectAll(".city")
+           .data(topojson.feature(uk, uk.objects.cities).features)
+           .attr("d", path.pointRadius(width * .01))
+           .style("fill", "#ffffff")
+           .attr("class", "city");
+    svg.selectAll(".city-label")
+      .data(topojson.feature(uk, uk.objects.cities).features)
+      .enter().append("text")
+      .attr("class", "city-label")
+      //.attr("transform", function(d) { return "translate(" + projection(d.geometry.coordinates) + ")"; })
+      .attr("x", function(d){
+        return path.centroid(d)[0];
+      })
+      .attr("y", function(d){
+        return path.centroid(d)[1];
+      })
+      .attr("dy", "-10px")
+      //.append("textPath")
+      //.attr("xlink:href", "#city")
+      .style("text-anchor", function(d) { return d.geometry.coordinates[0] > -1 ? "start" : "end"; })
+      .style("font-family", "Arial")
+      .text(function(d) { return d.properties.name; });*/  
+  
+});
+
+d3.select(window).on('resize', resize);
+$(function(){ resize(); });
+      
+      
+function resize() {
+    // adjust things when the window size changes
+    d3.select("#connector").remove();
+
+               d3.select("#connectorcircle").remove();
+    height = parseInt(d3.select('#map').style('height'));
+    height = height - margin.top - margin.bottom;
+    width = parseInt(d3.select('#map').style('width'));
+    width = width - margin.left - margin.right;
+    containerWidth = $(window).width();
+    scale = height * 5;
+    if (containerWidth < 540 && height > 600) {
+      scale = height * 4
+    }
+    
+      
+
+
+    // update projection
+    projection
+    .center([1, 55.4])
+    .rotate([4.4, 0])
+    .parallels([50, 60])
+    .scale(scale)
+    .translate([width / 2, height / 2]);
+    // resize the map container
+    svg
+        .style('height', height + 'px');
+
+    // resize the map
+    svg.selectAll('.subunit').attr('d', path);
+    svg.selectAll('.irl').attr('d', path);
+    svg.selectAll('.heathrow').attr('d', path.pointRadius(height * .02));
+    if (parseInt(d3.select('#map').style('width')) <= 780 || jQuery.browser.mobile) {
+          $(".title-img").addClass("hidden");
+  
+        }
+          if (parseInt(d3.select('#map').style('width')) > 780) {
+          $(".title-img").removeClass("hidden");
+  
+        }
+    /*svg.selectAll('.city').attr('d', path.pointRadius(width * .01));
+    svg.selectAll('.arc').attr('d', path);
+    svg.selectAll('.cross').attr('d', path);
+    svg.selectAll('.city-label').attr('d', path).attr("x", function(d){
+        return path.centroid(d)[0];
+      })
+      .attr("y", function(d){
+        return path.centroid(d)[1];
+      });*/
+
+
+}
+function clicked(d) {
+    d3.select("#tooltip-d3").classed("hidden", true);
+    d3.selectAll("path").classed("active", false);
+    d3.select("#connector").remove();
+    d3.select("#connectorcircle").remove();
+  var x, y, k;
+  if (d && centered !== d) {
+    var centroid = path.centroid(d);
+    x = centroid[0];
+    y = centroid[1];
+    k = height * 5;
+    centered = d;
+  } else {
+    x = width / 2;
+    y = height / 2;
+    k = 1;
+    centered = null;
+  }
+
+  svg.selectAll("path")
+      .classed("active", centered && function(d) { return d === centered; });
+//jsPlumb.Defaults.Container = $("#map");
+  /*svg.transition()
+      .duration(750)
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .style("stroke-width", 1.5 / k + "px");*/
+      var xPosition = d3.select(this).attr("x");
+      var yPosition = d3.select(this).attr("y");
+      //width conditional for mobile format
+      if (parseInt(d3.select('#map').style('width')) > 560 && jQuery.browser.mobile == false) {
+
+                //Update the tooltip position and value
+            if (d.properties.side == 'right') {
+                d3.select(".tooltip-d3")
+                  //Show the tooltip above where the mouse triggers the event
+                  //.style("left", (d3.event.pageX - 40) + "px")     
+                  //.style("top", (d3.event.pageY - 330) + "px")
+                  .style("right", 20 + "px")     
+                  .style("top", 20 + "px")
+                  .style("left", null)     
+                  .style("bottom", null)
+                  .style('z-index', 1001)
+                  .html(
+                    '<input type="image" src="close.png" class="tooltipbutton" id="close" />' +
+                    '<div>' +
+                      '<h3>' + d.properties.name + '</h3>' +
+                      '<img src="content-images/' + d.properties.image + '" alt="' + d.properties.name + '">' +
+                      '<p>' + d.properties.paragraphs.join('</p><p>') + '</p>' +
+                    '</div>'
+                  );
+                  d3.select("#tooltip-d3").classed("hidden", false); 
+            
+                  var regionline = svg.append("svg:line")
+                 .attr("x1", width - 235)
+                .attr("y1", 50)
+                .attr("x2", path.centroid(d)[0])
+                .attr("y2", path.centroid(d)[1])
+                .style("stroke", "#540084")
+                .style("stroke-width", "5px")
+                .style("stroke-linecap", "round")
+                .attr("id", "connector");
+                var regioncircle = svg.append("svg:circle")
+                .attr("cx", path.centroid(d)[0])
+                .attr("cy", path.centroid(d)[1])
+                .style("stroke", "#540084")
+                .style("fill", "#540084")
+                .attr("r","6px")
+                .attr("id", "connectorcircle");
+
+                  }  
+              if (d.properties.side == 'left') {
+                d3.select(".tooltip-d3")
+                  //Show the tooltip above where the mouse triggers the event
+                  //.style("left", (d3.event.pageX - 40) + "px")     
+                  //.style("top", (d3.event.pageY - 330) + "px")
+                  .style("left", 20 + "px")     
+                  .style("bottom", 20 + "px")
+                  .style("right", null)     
+                  .style("top", null)
+                  .style('z-index', 1001)
+                  .html(
+                    '<input type="image" src="close.png" class="tooltipbutton" id="close" />' +
+                    '<div>' +
+                      '<h3>' + d.properties.name + '</h3>' +
+                      '<img src="content-images/' + d.properties.image + '" alt="' + d.properties.name + '">' +
+                      '<p>' + d.properties.paragraphs.join('</p><p>') + '</p>' +
+                    '</div>'
+                  );
+                  
+                  d3.select("#tooltip-d3").classed("hidden", false); 
+
+                var regionline = svg.append("svg:line")
+                 .attr("x1", 235)
+                .attr("y1", height - parseInt(d3.select('#tooltip-d3').style('height')))
+                .attr("x2", path.centroid(d)[0])
+                .attr("y2", path.centroid(d)[1])
+                .style("stroke", "#540084")
+                .style("stroke-width", "5px")
+                .style("stroke-linecap", "round")
+                .attr("id", "connector");
+                var regioncircle = svg.append("svg:circle")
+                .attr("cx", path.centroid(d)[0])
+                .attr("cy", path.centroid(d)[1])
+                .style("stroke", "#540084")
+                .style("fill", "#540084")
+                .attr("r","6px")
+                .attr("id", "connectorcircle"); 
+
+                  } 
+                  
+                  /*jsPlumb.connect({source:"tooltip", target:d.properties.name.replace(/\s+/g, '').toLowerCase(),paintStyle:{lineWidth:8, strokeStyle:'#540084',endpointStyle:'#540084'},
+  anchors:["TopLeft", "Center"]});*/
+                }
+                //mobile tooltips
+
+
+        if (parseInt(d3.select('#map').style('width')) <= 560 || jQuery.browser.mobile) {
+          
+         
+          d3.select("#basic-modal-content")
+                  //Show the tooltip above where the mouse triggers the event
+                  //.style("left", (d3.event.pageX - 40) + "px")     
+                  //.style("top", (d3.event.pageY - 330) + "px")
+                  
+                  .style('z-index', 1001)
+                  .style("margin", "auto")
+                  .style("max-width", null)
+
+                  .html('<img src="close_small.png" width="80px" class="tooltipbutton">'
+                    +
+                    
+                    '<div>' +
+                      '<h3>' + d.properties.name + '</h3>' +
+                      '<img class="regionimage" src="content-images/' + d.properties.image + '" alt="' + d.properties.name + '">' +
+                      '<p>' + d.properties.paragraphs.join('</p><p>') + '</p>' +
+                    '</div>'
+                  );
+
+
+
+            $('#basic-modal-content').modal({overlayClose: true});
+
+
+        }
+
+                //Show the tooltip
+                
+
+               
+}
+$("body").on("click", "input", function() {
+    d3.select("#tooltip-d3").classed("hidden", true);
+    //d3.selectAll("path").classed("active", false);
+    d3.select("#connector").remove();
+               d3.select("#connectorcircle").remove();
+
+});
+
+/*$("body").on("click", "div", function() { 
+        if(!$('#tooltip').hasClass("hidden")) {
+          alert("click");
+               d3.select("#tooltip").classed("hidden", true);
+               d3.selectAll("path").classed("active", false);
+        }     
+});*/
+$(document).mouseup(function (e)
+{
+    var container = $(".svg");
+
+    if (!container.is(e.target) // if the target of the click isn't the container...
+        && container.has(e.target).length === 0) // ... nor a descendant of the container
+    {
+               d3.select("#tooltip-d3").classed("hidden", true);
+               d3.selectAll("path").classed("active", false);
+               d3.select("#connector").remove();
+               d3.select("#connectorcircle").remove();
+             }
+});
+
+}
+else {
+  $(".img-respond").height($(window).height());
+  $("#map-container").show();
+  $(".tooltip-map").hide();
+ 
+jQuery(document).ready(function($){
+  //$('#UKImg').maphilight();
+  $('img[usemap]').rwdImageMaps();
+ 
+var open = null;
+ $("area").on("click", function() {
+
+    $("#tooltip-" + this.id).show();
+});
+jQuery(window).bind('resize', function(e)
+{
+    window.resizeEvt;
+    jQuery(window).resize(function()
+    {
+
+$(".img-respond").height($(window).height());
+        clearTimeout(window.resizeEvt);
+        window.resizeEvt = setTimeout(function()
+        {
+            //$('img[usemap]').maphilight();
+        }, 250);
+    });
+
+
+
+});
+
+
+    open = this.id;
+
+
+});
+$("body").on("click", "input", function() {
+    $(".tooltip-map").hide();
+
+});
+
+/*$("body").on("click", "div", function() { 
+        if(!$('#tooltip-' + open && open != null).hasClass('hidden')) {
+        $(".tooltip").addClass("hidden");
+        }     
+});*/
+$(document).mouseup(function (e)
+{
+    var container = $(".tooltip-map");
+
+    if (!container.is(e.target) // if the target of the click isn't the container...
+        && container.has(e.target).length === 0) // ... nor a descendant of the container
+    {
+$(".tooltip-map").hide();
+             }
+});
+}
+</script>
+
+
+
+</body>
+
+</html>

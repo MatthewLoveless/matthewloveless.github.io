@@ -1,0 +1,8 @@
+{ "type": "FeatureCollection",
+    "features": [
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-0.4581, 51.4695]},
+        "properties": {"name": "Heathrow","radius": 20}
+        }
+        ]
+        }

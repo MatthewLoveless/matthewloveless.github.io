@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!--Edit the title of the page-->
+    <title>#WasteOfSpace</title>
+    <link href="http://www.cpre.org.uk/templates/cpremain/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+    <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="detectmobilebrowser.js"></script>
+
+
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.ie.css" />
+    <![endif]-->
+    <!--Switch between the different themes changing the stylesheet below - light-theme.css |dark-theme.css -->
+    <link rel="stylesheet" href="css/light-theme.css">
+    <link rel="stylesheet" href="css/makeitresponsive.css">
+  </head>
+  <body>
+<div class="logo" style="z-index:1;position:absolute;bottom:30px;left:5px;"><a href="http://www.cpre.org.uk/" target="_blank"><img src="http://www.cpre.org.uk/templates/cprelocalgroup/images/logo.png"></a></div>
+    <div class="map" id="map">
+      
+
+      </div>
+
+    <div class="sidepanel">
+      <div class="wrapper">
+        <div class="context subheader">
+  
+        </div>
+        <h1>#WasteOfSpace</h1>
+        <p>More housing is needed in England and we support the Government’s policy that brownfield land should be prioritised for new homes. Our #WasteOfSpace campaign supports the launch of new research into the amount of brownfield land available for future development.</p><p>Browse our interactive map, showing areas of local disused land nominated by the public, that could be suitable for housing development.</p>
+        <a class="twitter-timeline" href="https://twitter.com/CPRE" data-widget-id="484959103681191936">Tweets by @CPRE</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+        
+
+        
+      </div>
+    </div>
+
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+    <!--Change the URL below in order to change the map that is being shown.
+    Go to your map in CartoDB, click on share, and copy the URL undert the API section
+    Check the cartodb.js documentation for more info
+    http://developers.cartodb.com/documentation/cartodb-js.html-->
+    <script type="text/javascript">
+        function main() {
+      cartodb.createVis('map', 'http://portland.cartodb.com/api/v2/viz/b1420206-0302-11e4-a08d-0edbca4b5057/viz.json', {searchControl: true, center_lat:53,center_lon:-1.8, zoom: 7, cartodb_logo: false})
+.done(function(vis, layers) {
+
+          // Set max zoom
+          vis.map.set({
+            minZoom: 6,
+            maxZoom: 17
+          });
+
+        })
+        .error(function(err) {
+          console.log(err);
+        });
+      }
+ 
+      window.onload = main;
+      if (jQuery.browser.mobile == true) {
+        
+        document.getElementById("map").style.width= '90%';
+      }
+      
+    </script>
+
+  </body>
+      </html>

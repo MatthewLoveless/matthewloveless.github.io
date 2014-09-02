@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!--Edit the title of the page-->
+    <title>#WasteOfSpace</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="http://www.cpre.org.uk/templates/cpremain/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+      <link rel="stylesheet" href="Control.Geocoder.css" />
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.ie.css" />
+    <![endif]-->
+    <!--Switch between the different themes changing the stylesheet below - light-theme.css |dark-theme.css -->
+    <link rel="stylesheet" href="css/light-theme.css">
+  </head>
+  <body>
+    <div class="map" style="width:100% !important;" id="map">
+      
+
+      </div>
+
+    
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+     <script src="Control.Geocoder.js"></script>
+    <!--Change the URL below in order to change the map that is being shown.
+    Go to your map in CartoDB, click on share, and copy the URL undert the API section
+    Check the cartodb.js documentation for more info
+    http://developers.cartodb.com/documentation/cartodb-js.html-->
+    <script type="text/javascript">
+    var mapboxTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/portland.injn5k2h/{z}/{x}/{y}.png');
+
+    var map = L.map('map', { zoomControl:true, minZoom:6, maxZoom:18 }).addLayer(mapboxTiles).setView([53, -1.8], 7);
+      var geocoder = L.Control.geocoder().addTo(map);
+
+    geocoder.markGeocode = function(result) {
+    this._map.fitBounds(result.bbox);
+      };
+
+        cartodb.createLayer(map, 'http://portland.cartodb.com/api/v2/viz/f84cffb6-077b-11e4-9e59-0edbca4b5057/viz.json')
+         .addTo(map)
+         .on('done', function(layer) {
+
+          layer.setInteraction(true);
+
+          layer.on('featureOver', function(e, pos, latlng, data) {
+            cartodb.log.log(e, pos, latlng, data);
+          });
+
+          layer.on('error', function(err) {
+            cartodb.log.log('error: ' + err);
+          });
+        }).on('error', function() {
+          cartodb.log.log("some error occurred");
+        });
+
+
+
+    </script>
+
+  </body>
+      </html>

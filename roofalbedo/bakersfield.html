@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'/>
+  <meta name='robots' content='index'/>
+  <meta name='description' content='At noon on a clear summer day in the United States, a flat surface receives about 1000 watts of sunlight per square meter. Traditional dark roofs strongly absorb this sunlight, heating both the building and the surrounding air. This increases energy use in air conditioned buildings, and makes non-air conditioned buildings less comfortable. Hot dark roofs also aggravate urban heat islands by warming the air flowing over the roof, and contribute to global warming by radiating heat into the atmosphere.'/>
+  <title>Bakersfield Rooftop Albedo | Berkeley Lab</title>
+  <script src='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.js'></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="site.js"></script>
+  <link href='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.css' rel='stylesheet' />
+   <link rel='stylesheet' href='site.css' type='text/css'/>
+    <link rel='shortcut icon' href='http://www.lbl.gov/favicon.ico' type='image/x-icon' />
+  <!--[if lte IE 8]>
+    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.1.0/mapbox.ie.css' rel='stylesheet' >
+  <![endif]-->
+  <style>
+    body { margin:0; padding:0; }
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+  </style>
+</head>
+<body class='exhibit'>
+<style>
+
+#map-ui {
+    position: absolute;
+    top: 60px;
+    left: 10px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    z-index: 100;
+}
+
+#map-ui a {
+    font: normal 13px/18px 'Helvetica Neue', Helvetica, sans-serif;
+    background: #FFF;
+    color: #3C4E5A;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #BBB;
+    border-bottom-width: 0;
+    min-width: 138px;
+    padding: 10px;
+    text-decoration: none;
+}
+
+#map-ui a:hover {
+    background: #ECF5FA;
+}
+
+#map-ui li:last-child a {
+    border-bottom-width: 1px;
+    -webkit-border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
+}
+
+#map-ui li:first-child a {
+    -webkit-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+}
+
+#map-ui a {
+    background: #3887BE;
+    border-color: #3887BE;
+    border-top-color: #FFF;
+    color: #FFF;
+    
+}
+
+    .leaflet-top {
+        top:50px;
+    }
+    .legend {
+        
+        float:left;
+        position: absolute;
+    bottom: 20px;
+    left: 30px;
+    margin: 0;
+    padding: 0;
+    z-index: 100;
+    background-color: #ffffff;
+
+        
+    }
+   .legend-logo {
+      height:136px;
+      float:left;
+    }
+    .my-legend {
+      width:300px; 
+      float:right;
+    }
+    .my-legend .legend-title {
+      text-align: left;
+      margin-bottom: 4px;
+      margin-left: 10px;
+      margin-top: 4px;
+      font-weight: bold;
+      font-size: 90%;
+      }
+    .my-legend .legend-scale ul {
+      margin: 10px;
+      padding: 0;
+      float: left;
+      list-style: none;
+      }
+    .my-legend .legend-scale ul li {
+      display: block;
+      float: left;
+      width: 50px;
+      margin-bottom: 6px;
+      text-align: left;
+      font-size: 80%;
+      list-style: none;
+      }
+    .my-legend .legend-scale ul li {
+      display: block;
+      float: left;
+      width: 40px;
+      margin-bottom: 6px;
+      text-align: left;
+      font-size: 80%;
+      list-style: none;
+      margin-left: 0px; 
+      }
+
+    .my-legend .legend-scale ul li:last-child {
+      margin-left: -10px;
+
+    }
+    .my-legend ul.legend-labels li span {
+      display: block;
+      float: left;
+      height: 15px;
+      width: 40px;
+      margin-left: 0px;
+      }
+    .my-legend .legend-source {
+      font-size: 90%;
+      color: #999;
+      clear: both;
+      float: right;
+      margin-right: 4px;
+      }
+    .my-legend a {
+      color: #777;
+      }
+  </style>
+<div class='branding'><div class='limiter'>
+  <a class='logo' href='/'>Berkeley Lab</a>
+  <ul class='title'>
+    <li class='header'><a href='http://heatisland.lbl.gov/' target="_blank">Berkeley Lab Heat Island Group</a></li>
+    <li class='nav n2 '>
+      <a href='action.html' target="_blank"> Take Action</a>
+    </li>
+  </ul>
+  <ul class='menu1'>
+    <li class='nav n2 active'>
+      <a href='bakersfield.html'>Bakersfield</a>
+    </li>
+    <li class='nav n2 '>
+      <a href='longbeach.html'>Long Beach</a>
+    </li>
+    <li class='nav n2 '>
+      <a href='losangeles.html'>Los Angeles</a>
+    </li>
+        <li class='nav n2 '>
+      <a href='sanfrancisco.html'>San Francisco</a>
+    </li>
+        <li class='nav n2 '>
+      <a href='sanjose.html'>San Jose</a>
+    </li>
+
+  </ul>
+</div></div>
+
+
+<div class='summary sidebar'>
+  
+  <small class='clearfix'>
+  <ul class='switcher ewf'>
+    <li class='highlight'></li>
+    <li class='map'><a id='mapclick' href='#map'>Map</a></li>
+    <li class='science'><a id='science' href='#science'>The Science</a></li>
+    <li class='matters'><a id='matters' href='#matters'>Why It Matters</a></li>
+  </ul>
+  </small>
+  
+
+  <h2>Warm Roofs, Hot Cities <small>Mapping Roof Albedo in Bakersfield, California</small></h2>
+
+
+
+  <ul id='navigation' class='steps exhibit'>
+    <li class='first'><a class='step0 active' href='#0'>This map displays roof albedo (solar reflectance) estimates from Berkeley Lab for Bakersfield.<br><br>Albedo is the fraction of sunlight that is reflected from a surface. It is measured on a scale of 0 to 1, where higher numbers indicate greater reflectance.<br><br>Reflective roofs are more energy efficient and cooler inside and out. In Bakersfield, the average roof albedo is about 0.20.
+</a></li>
+    <li><a href='#1' class="step1">
+      <strong class = "title" data-position='35.400717,-118.937463'>+ A sample cool roof</strong>
+      <p>This roof has a high albedo and reflects about 60% of the sunlight. On a sunny day, a roof that strongly reflects sunlight can stay much cooler than a roof that absorbs sunlight. Click on the green marker to view this building in Google Maps.</p>
+    </a></li>
+    
+    <li><a href='#2' class="step2">
+      <strong class = "title" data-position='35.401172,-118.932754'>+ A sample warm roof</strong>
+      <p>This building has a dark roof that absorbs sunlight, warming both the building and the surrounding air. The building has an albedo of about 0.11, meaning that about 85% of the solar energy is absorbed. Click on the yellow marker to view this building in Google Maps.</p>
+
+    </a></li>
+    <li><a class="step3" id='warmbutton' >
+      <strong class = "title" style='color:#d40'>+ What would happen if Bakersfield were covered in cool roofs?</strong>
+    </a></li>
+
+    
+    
+  </ul>
+  <div id='cooltext' style="display:none">
+  Installing cool roofs makes buildings more energy efficient, but it can also make entire cities cooler and more comfortable. <br><br>
+This map shows the modeled decrease to air temperature (on a summer afternoon) in Bakersfield and surrounding areas if cool roofs were installed on Bakersfield homes and businesses. The decrease ranges from approximately 0&deg;C to over 0.20&deg;C. Temperature decreases have been modeled to be even larger for other bigger cities. Cool roofs used in conjunction with other heat mitigation strategies (e.g. cool pavements and urban vegetation) could be used to partially counter local warming from global climate change.<br><br>
+<a class='step3' href='#' id="coolbutton" style="color: #de2d26;font-weight:bold;">Back to the Albedo Map</a>
+  </div>
+<div id='sciencetext' style="display:none;">
+With funding from the California Air Resources Board, Berkeley Lab's Heat Island Group created this map using data acquired via an airplane-mounted sensor during summer 2009. The sensor measured light-intensity in four spectral bands at 1-meter spatial resolution, and was originally acquired for the <a style="color: #de2d26" href="http://www.fsa.usda.gov/FSA/apfoapp?area=home&subject=prog&topic=nai" target="_blank">National Agriculture Imagery Program</a>. 
+<br><br>
+After various corrections were made (e.g. accounting for light scattering in the atmosphere), individual rooftop pixels were isolated, and the albedo of each roof was estimated. The results were calibrated and “ground-truthed” using laboratory measurements of hundreds of roofing samples and rooftop measurements of albedo using an instrument called a pyranometer. Streets and parking lots were excluded from the analysis.
+<br><br>
+Note: Rooftop equipment, such as solar panels or HVAC systems, was not distinguished from the roofing material and was included in the albedo estimate for each rooftop. Also note that there is associated uncertainty in the reported albedo for each rooftop. For more details on methods, uncertainties, and further analyses and implications, see the <a href='http://www.arb.ca.gov/research/apr/past/10-321.pdf' target='_blank' style="color: #de2d26">CARB report.</a><br><br>Want more science? Check out the Heat Island Group's <a href='http://heatisland.lbl.gov/coolscience/cool-science-cool-roofs' target='_blank' style="color: #de2d26">cool science page</a>.
+</div>
+<div id='matterstext' style="display:none">
+<p>At noon on a clear summer day in the United States, a flat roof receives about 1000 watts of sunlight per square meter. Traditional dark roofs strongly absorb sunlight and:<li>Heat up the building.</li><li>Increase AC energy use, cost, and associated climate warming greenhouse gas emissions</li><li>Heat the air, worsening the <a href='http://heatisland.lbl.gov/coolscience/cool-science-urban-heat-islands' target='_blank' style="color: #de2d26">urban heat island effect</a>. </li><br>Thinking of going cool? Check out our list of <a href='action.html' target='_blank' style="color: #de2d26">resources</a>.</p>
+</div>   
+</div>
+
+    
+</div>
+
+
+
+
+<div id='map'>
+    <ul id='map-ui'>
+
+    </ul>
+
+    <div class='limiter'>
+
+
+
+<div id='legend-content' class='legend'>
+    <div class='legend-logo'>
+    <a href="http://lbl.gov/" target="_blank"><img src="images/Berkeley_Lab_Logo_Large.png" alt="Berkeley Lab" width="164px" height="129px"></a>  </div>
+  <div class='my-legend'>
+  <div class='legend-title'><h2>Roof Albedo</h2></div>
+  <div class='legend-scale'>
+    <ul class='legend-labels'>
+    <li><span title='0.00-0.05' style='background:#d7191c;'></span>0</li>
+    <li><span title='0.05-0.10' style='background:#ea633e;'></span>0.05</li>
+    <li><span title='0.10-0.15' style='background:#fdae61;'></span>0.10</li>
+    <li><span title='0.15-0.20' style='background:#fed690;'></span>0.15</li>
+    <li><span title='0.20-0.25' style='background:#ffffbf;'></span>0.20</li>
+    <li><span title='0.25-0.30' style='background:#d5ecd4;'></span>0.25</li>
+    <li><span title='0.30-0.35' style='background:#c7dcef;'></span>0.30</li>
+    <li><span title='0.35-0.40' style='background:#a2cbe2;'></span>0.35</li>
+    <li><span title='0.40-0.45' style='background:#72b2d7;'></span>0.40</li>
+    <li><span title='0.45-0.50' style='background:#4997c9;'></span>0.45</li>
+    <li><span title='0.50-0.55' style='background:#2878b8;'></span>0.50</li>
+    <li><span title='0.55-0.60' style='background:#0d57a1;'></span>0.55</li>
+    <li><span title='0.60-1.00' style='background:#08306b;'></span>0.60</li>
+    <li><span title='0.60-1.00'></span>1.00</li>
+
+
+
+    </ul>
+  </div>
+  <div class='legend-source'>
+Data Source: <a href="http://heatisland.lbl.gov/" target="_blank">Berkeley Lab Heat Island Group</a></div>
+  </div>
+</div>
+<div  class='legend' id="coollegend" style="display:none">
+  <div class='my-legend'>
+  <div class='legend-title'><h2>Modeled Temperature Change in Degrees Celsius</h2></div>
+  <div class='legend-scale'>
+    <ul class='legend-labels'>
+      <li><span style='background:#ffffff;'></span>0 </li>
+      <li><span style='background:#e5e4f0;'></span>-0.05</li>
+      <li><span style='background:#9895c6;'></span>-0.10</li>
+      <li><span style='background:#7a6fb2;'></span>-0.15</li>
+      <li><span style='background:#3f007d;'></span>-0.20</li>
+      
+
+
+    </ul>
+  </div>
+  <div class='legend-source'>Data Source: <a href="http://heatisland.lbl.gov/" target="_blank">Berkeley Lab Heat Island Group</a></div>
+  </div>
+
+
+
+</div>
+
+<script type='text/javascript'>
+var map = L.mapbox.map('map', 'lyon25835.bakersfield_interactivity', {
+    minZoom: 11,
+    maxZoom: 17
+}).setView([35.344415228494654, -119.05145468918255], 12);
+map.setView([35.344415228494654, -119.05145468918255], 12);
+map.gridControl.options.follow = true;
+map.gridControl.options.pinnable = true;
+map.on('click', function(e) {
+    map.panTo([e.latlng.lat,e.latlng.lng]);
+    map.panBy([0, -30]);
+});
+
+group = L.layerGroup().addTo(map);
+var attribution = L.control.attribution({ position: 'bottomright', prefix: '' }).addTo(map);
+attribution.addAttribution('Questions or comments about the map?<a href="mailto:dakrotz@lbl.gov" target="_blank"> Contact us</a>');
+//var legend = map.legendControl.addLegend(document.getElementById('legend-content').innerHTML);
+//map.addControl(L.mapbox.legendControl(legend, {
+//    position: 'bottomleft'
+//}));
+//L.control.scale().addTo(map);
+//map.addControl(L.mapbox.shareControl('http://s3-us-west-1.amazonaws.com/matthewloveless.com/visible_interaction.html'));
+var geoJson = [{
+    type: 'Feature',
+    geometry: {
+        type: 'Point',
+        coordinates: [-118.937463, 35.400717]
+    },
+    properties: {
+        title: 'This building is colored blue, indicating that it has a light colored, reflective roof (a "cool roof").',
+//        'marker-color': '#08519C',
+			'marker-color': '#00ff00',
+        url:"https://www.google.com/maps/place/37%C2%B045'00.9%22N+122%C2%B026'01.3%22W/@35.4008307,-118.9373662,165m/data=!3m1!1e3!4m2!3m1!1s0x808f7e132a3d1743:0xc423d238ea7005ea"
+    }},
+    {
+    type: 'Feature',
+    geometry: {
+        type: 'Point',
+        coordinates: [-118.932754, 35.401172]
+    },
+    properties: {
+        title: 'This building is colored red, indicating that it has a dark roof that absorbs sunlight and warms both the building and the surrounding air.',
+     //   'marker-color': '#A50F15',
+	  'marker-color': '#fdfa02',
+url:"https://www.google.com/maps/place/35%C2%B024'04.2%22N+118%C2%B055'57.9%22W/@35.4009197,-118.9327247,305m/data=!3m1!1e3!4m2!3m1!1s0x0:0x0"
+
+    }}
+    
+];
+var ui = document.getElementById('map-ui');
+document.getElementById('navigation').onclick = function(e) {
+	map.markerLayer.clearLayers();
+    var pos = e.target.getAttribute('data-position');
+    if (pos) {
+        var loc = pos.split(',');
+        
+        map.markerLayer.setGeoJSON(geoJson);
+        map.setView(loc, 17);
+        map.markerLayer.on('click', function(e) {
+             e.layer.unbindPopup();
+             window.open(e.layer.feature.properties.url, '_blank');
+        });
+        $("geoJson").click();
+    }
+};
+
+group.addLayer(L.mapbox.tileLayer('lyon25835.geog9cg1'), 'Base Map', 1, 'base');
+group.addLayer(L.mapbox.tileLayer('lyon25835.bakersfield_residential'), 'Residential Buildings', 5, 'residential');
+
+function addLayer(layer, name, zIndex, type) {
+    layer
+        .setZIndex(zIndex)
+        .addTo(map);
+
+    // Create a simple layer switcher that toggles layers on
+    // and off.
+    var item = document.createElement('li');
+    var link = document.createElement('a');
+
+    link.href = '#';
+    link.className = 'active'+type;
+    link.innerHTML = name;
+
+    link.onclick = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (map.hasLayer(layer)) {
+            map.removeLayer(layer);
+            this.className = type;
+        } else {
+            map.addLayer(layer);
+            this.className = 'active'+type;
+        }
+    };
+    
+
+    item.appendChild(link);
+    ui.appendChild(item);
+    
+}
+
+$("a.step0").click(function() {
+	$("a.step1.active").removeClass("active");
+	   $("a.step2.active").removeClass("active");
+	   $("a.step3.active").removeClass("active");
+	        $("#search").css("display", "none");
+	$(this).addClass("active");
+});
+$("a.step1").click(function() {
+    $("a.step0.active").removeClass("active");
+       $("a.step2.active").removeClass("active");
+       $("a.step3.active").removeClass("active");
+                $("#search").css("display", "none");
+    $(this).addClass("active");
+});
+$("a.step2").click(function() {
+    $("a.step0.active").removeClass("active");
+       $("a.step1.active").removeClass("active");
+       $("a.step3.active").removeClass("active");
+                $("#search").css("display", "none");
+    $(this).addClass("active");
+});
+$("a.step3").click(function() {
+    $("a.step0.active").removeClass("active");
+       $("a.step1.active").removeClass("active");
+       $("a.step2.active").removeClass("active");
+                $("#search").css("display", "none");
+    $(this).addClass("active");
+});
+
+$( "#science" ).click(function() {
+  $( "#sciencetext" ).show( "fast");
+  $( "body" ).addClass( "whitepaper");
+      $( "#matterstext" ).hide( 500 );
+    $( "#navigation" ).hide( 500 );
+    $( "#cooltext" ).hide( 500 );
+    $( "body" ).removeClass( 'exhibit' );
+    $( "body" ).removeClass( 'follow' );
+    });
+$( "#mapclick" ).click(function() {
+  $( "#navigation" ).show( "fast");
+    $( "body" ).addClass( "exhibit");
+    $( "#sciencetext" ).hide( 500 );
+    $( "#matterstext" ).hide( 500 );
+    $( "#cooltext" ).hide( 500 );
+        $( "body" ).removeClass( 'whitepaper' );
+    $( "body" ).removeClass( 'follow' );
+    });    
+    
+$( "#matters" ).click(function() {
+  $( "#matterstext" ).show( "fast");
+      $( "body" ).addClass( "follow");
+    $( "#sciencetext" ).hide( 500 );
+    $( "#navigation" ).hide( 500 );
+    $( "#cooltext" ).hide( 500 );
+        $( "body" ).removeClass( 'exhibit' );
+    $( "body" ).removeClass( 'whitepaper' );
+    }); 
+$( "#warmbutton" ).click(function() {
+    $( "#cooltext" ).show( "fast");
+    
+    $( "#sciencetext" ).hide( 500 );
+    $( "#navigation" ).hide( 500 );
+    $( "#matterstext" ).hide( 500 );
+    $( "#legend-content" ).hide( 500 );
+    $("#map").fadeOut('slow', function() {
+        $( "#coollegend" ).show("fast");
+    group.clearLayers();
+    group.addLayer(L.mapbox.tileLayer('lyon25835.geog9cg1'), 'Base Map', 1, 'base');
+    group.addLayer(L.mapbox.tileLayer('lyon25835.bakersfield_tempchange'), 'Temp Change', 2, 'temp');
+    });
+    $("#map").fadeIn('slow');
+    });
+$( "#coolbutton" ).click(function() {
+    $( "#navigation" ).show( "fast");
+    
+    $( "#sciencetext" ).hide( 500 );
+    $( "#cooltext" ).hide( 500 );
+    $( "#matterstext" ).hide( 500 );
+    $( "#coollegend" ).hide( 500 );
+    $("#map").fadeOut('slow', function() {    
+        $( "#legend-content" ).show( "fast");
+      group.clearLayers();
+      group.addLayer(L.mapbox.tileLayer('lyon25835.geog9cg1'), 'Base Map', 1, 'base');
+      group.addLayer(L.mapbox.tileLayer('lyon25835.heat_bakersfield_commercial'), 'Commercial Buildings', 2, 'commercial');
+      group.addLayer(L.mapbox.tileLayer('lyon25835.bakersfield_government'), 'Government Buildings', 3, 'government');
+      group.addLayer(L.mapbox.tileLayer('lyon25835.bakersfield_industrial'), 'Industrial Buildings', 4, 'industrial');
+      group.addLayer(L.mapbox.tileLayer('lyon25835.bakersfield_residential'), 'Residential Buildings', 5, 'residential');
+      group.addLayer(L.mapbox.tileLayer('lyon25835.bakersfield_other'), 'Other Buildings', 6, 'other');
+    });
+        $("#map").fadeIn('slow');
+    $("a.step0").addClass("active");
+
+
+    });          
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{ "type": "FeatureCollection",
+    "features": [
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-4.30, 55.86]},
+        "properties": {"name": "Glasgow", "radius": 8}
+        }
+        ]
+        }
