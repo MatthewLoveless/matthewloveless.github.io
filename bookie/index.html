@@ -46,7 +46,7 @@
     <script>
      
       var info = document.getElementById('info');   
-      var cons = 634;
+      var cons = 'Dulwich and West Norwood';
       var mapboxTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/portland.jd79lfk7/{z}/{x}/{y}.png');
       var map = new L.Map('map', {
                 center: [54.7761,-1.5733],
@@ -78,7 +78,7 @@
 mapzoom (cons, map);
 function mapzoom (target, maparea) {
     var sql = new cartodb.SQL({ user: 'portland' });
-    var query = "select * from bylb_uk_cons_data where cartodb_id =" + target;
+    var query = "select * from bylb_uk_cons_data where map_value = '" + target + "'";
     sql.getBounds(query).done(function(bounds) {
             map.fitBounds(bounds)
           });
