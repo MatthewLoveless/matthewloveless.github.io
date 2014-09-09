@@ -46,7 +46,7 @@
     <script>
      
       var info = document.getElementById('info');   
-      var cons = 'Dulwich and West Norwood';
+      var cons = 'Hertford and Stortford';
       var mapboxTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/portland.jd79lfk7/{z}/{x}/{y}.png');
       var map = new L.Map('map', {
                 center: [54.7761,-1.5733],
@@ -84,7 +84,7 @@ function mapzoom (target, maparea) {
             map.fitBounds(bounds)
           });
     sql.execute(con_query).done(function(panel) {
-            info.innerHTML = '<h3>Your Community</h3><label>Constituency:</label><span>' + panel.rows[0].constituency + '</span><label>Number of Bookies:</label><span>' + panel.rows[0].offices + '</span><label>Employees:</label><span>' + panel.rows[0].employees + '</span><label>Member of Parliament:</label><span>' + panel.rows[0].mp + '</span><label>Party:</label><span>' + panel.rows[0].party + '</span>';
+            info.innerHTML = '<h3>Your Community</h3><label>Constituency:</label><span>' + panel.rows[0].map_value + '</span><label>Number of Bookies:</label><span>' + panel.rows[0].offices + '</span><label>Employees:</label><span>' + panel.rows[0].employees + '</span><label>Member of Parliament:</label><span>' + panel.rows[0].mp + '</span><label>Party:</label><span>' + panel.rows[0].party + '</span>';
           });
 cartodb.createLayer(maparea, {
   user_name: 'portland',
@@ -100,7 +100,7 @@ cartodb.createLayer(maparea, {
   type: 'cartodb',
   sublayers: [{
     sql: bookie_query,
-    cartocss: '#table_name {  marker-file: url(http://matthewloveless.github.io/bookie/img/marker.png);marker-opacity: 1;marker-line-width: 1;marker-line-opacity: 1;marker-placement: point;marker-type: ellipse;marker-allow-overlap: true;marker-fill: #903795;}'
+    cartocss: "#table_name [count = '1'] {marker-file: url(http://matthewloveless.github.io/bookie/img/marker.png);marker-opacity:1;marker-line-width: 1;marker-line-opacity: 1;marker-placement: point;marker-type: ellipse;marker-allow-overlap: true;}#table_name [count = '2'] {marker-opacity:1;marker-line-width: 1;marker-line-opacity: 1;marker-placement: point;marker-type: ellipse;marker-allow-overlap: true; marker-fill: #903795;marker-width: 20;marker-line-color: #903795;}#table_name  [count = '3'] {marker-opacity: 1;marker-line-width: 1;marker-line-opacity: 1;marker-placement: point;marker-type: ellipse;marker-allow-overlap: true; marker-fill: #903795;marker-width: 20;marker-line-color: #903795;}#table_name  [count = '4'] {marker-opacity: 1;marker-line-width: 1;marker-line-opacity: 1;marker-placement: point;marker-type: ellipse;marker-allow-overlap: true;marker-fill: #903795;marker-width: 20;marker-line-color: #903795;}#table_name::labels [count = '2']{text-name: [count];text-face-name: 'DejaVu Sans Book';text-size: 20;text-label-position-tolerance: 0;text-fill: #fff;text-dy: 0;text-allow-overlap: true;text-placement: point;text-placement-type: dummy;}#table_name::labels [count = '3']{text-name: [count];text-face-name: 'DejaVu Sans Book';text-size: 20;text-label-position-tolerance: 0;text-fill: #fff;text-dy: 0;text-allow-overlap: true;text-placement: point;text-placement-type: dummy;}#table_name::labels [count = '4']{text-name: [count];text-face-name: 'DejaVu Sans Book';text-size: 20;text-label-position-tolerance: 0;text-fill: #fff;text-dy: 0;text-allow-overlap: true;text-placement: point;text-placement-type: dummy;}"
   }]
 })
 .addTo(maparea)
