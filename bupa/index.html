@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!--Edit the title of the page-->
+    <title>Bupa Workplace Index</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
+@font-face {
+  font-family: 'interstate';
+  src: url('fonts/interstate/interstate.woff');
+
+}
+}
+      #map {
+        background: transparent;
+        width: 100%;
+      }
+
+      #year {
+        font-family: serif;
+        font-size: 27px;
+        color: #f89c1b;
+        background-color: rgba(59,58,63,.5);
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        position: absolute;
+        top: 80px;
+        left: 40px;
+        z-index: 1001 !important;
+      }
+    #menu { position: absolute; top: 5px; left: 40px; width: 50%; height:60px; background: transparent; z-index:10;}
+    #menu a { 
+      margin: 15px 10px 0 0;
+      float: left;
+      vertical-align: top;
+      width: 70px;
+      padding: 10px;
+      text-align: center;
+      font: bold 11px "Helvetica",Arial;
+      line-height: normal;
+      color: #555;
+      border-radius: 4px;
+      border: 1px solid #777777;
+      background: #ffffff;
+      text-decoration: none;
+      cursor: pointer;
+      font-family: 'interstate' !important;
+    }
+    #menu a.selected,
+    #menu a:hover { 
+      color: #F84F40;
+    }
+    #logo {
+      position: absolute;
+      left:20px;
+      bottom: 20px;
+      opacity: 60%;
+    }
+    #logo img {
+      opacity: 0.4;
+      filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+    }
+    .cartodb-legend {
+      font-family: 'interstate' !important;
+      max-width: 300px;
+    }
+    .cartodb-logo {display:none !important;} 
+    </style>
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.ie.css" />
+    <![endif]-->
+    <!--Switch between the different themes changing the stylesheet below - light-theme.css |dark-theme.css -->
+    <link rel="stylesheet" href="css/light-theme.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.ie.css" />
+    <![endif]-->
+  </head>
+  <body id = 'main'>
+
+    <div class="map" id="map">
+
+    <div class='cartodb-legend choropleth'> 
+<div class="legend-title">Bupa Workplace Index</div>
+<p style="max-width: 300px;">Click or tap on the highlighted countries for further information on their working patterns.</p>
+<ul>
+  <li class="min">
+    0
+  </li>
+  <li class="max">
+    10
+  </li>
+  <li class="graph count_567">
+  <div class="colors">
+  <div class="quartile" style="background-color:#eff3ff"></div>
+  <div class="quartile" style="background-color:#c6dbef"></div>
+  <div class="quartile" style="background-color:#9ecae1"></div>
+  <div class="quartile" style="background-color:#6baed6"></div>
+  <div class="quartile" style="background-color:#3182bd"></div>
+  <div class="quartile" style="background-color:#08519c"></div>
+  </div>
+  </li>
+</ul>
+</div></div>
+    <div id="logo"><img src="http://www.bupa.com/img/bupa-logo.jpg"></div>
+    <div id='menu'>
+    <a href="#overall" id="overall" class="button overall selected">Overall</a>
+    <a href="#primary" id="primary" class="button primary">Primary</a>
+    <a href="#secondary" id="secondary" class="button secondary">Secondary</a>
+    <a href="#tertiary" id="tertiary" class="button Tertiary">Tertiary</a>
+  </div>
+
+
+      </div>
+    </div>
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script type="text/javascript">
+   
+var datalayer;
+    function main() {
+        var map = new L.Map('map', {
+          zoomControl: false,
+          center: [43, 0],
+          zoom: 3,
+          fadeAnimation: true
+        });
+ 
+
+        
+
+        cartodb.createLayer(map, 'http://portland.cartodb.com/api/v2/viz/de8e6282-3ec5-11e4-9a34-0edbca4b5057/viz.json', {
+          legends: true
+        })
+
+         .addTo(map)
+         .on('done', function(layer) {
+
+          layer.setInteraction(true);
+
+          layer.on('error', function(err) {
+            cartodb.log.log('error: ' + err);
+          });
+        }).on('error', function() {
+          cartodb.log.log("some error occurred");
+        });
+
+        var datalayer = cartodb.createLayer(map, {
+          user_name: 'portland',
+          type: 'cartodb',
+          sublayers: [{
+            sql: "SELECT * FROM bupa",
+            cartocss: '#bupa{polygon-fill: #EFF3FF;}#bupa[sick_overall > 0]{polygon-fill: #c6dbef;}#bupa[sick_overall > 2]{polygon-fill: #9ecae1;}#bupa[sick_overall > 4]{polygon-fill: #6baed6;}#bupa[sick_overall > 6]{polygon-fill: #3182bd;}#bupa[sick_overall > 8]{polygon-fill: #08519c;}'
+          }
+        ]})
+        .addTo(map)
+        .on('done', function(layer) {
+       //   changeLegend(2008);
+               $('.button').click(function() {
+    
+    $('.button').removeClass('selected');
+    $(this).addClass('selected');
+    LayerActions[$(this).attr('id')]();
+    //changeLegend($(this).attr('id'));
+  });
+
+  var LayerActions = {
+    overall: function(){
+      layer.getSubLayer(0).setCartoCSS('#bupa{polygon-fill: #EFF3FF;}#bupa[sick_overall > 0]{polygon-fill: #c6dbef;}#bupa[sick_overall > 2]{polygon-fill: #9ecae1;}#bupa[sick_overall > 4]{polygon-fill: #6baed6;}#bupa[sick_overall > 6]{polygon-fill: #3182bd;}#bupa[sick_overall > 8]{polygon-fill: #08519c;}');
+      return true;
+    },
+   primary: function(){
+      layer.getSubLayer(0).setCartoCSS('#bupa{polygon-fill: #EFF3FF;}#bupa[sick_primary > 0]{polygon-fill: #c6dbef;}#bupa[sick_primary > 2]{polygon-fill: #9ecae1;}#bupa[sick_primary > 4]{polygon-fill: #6baed6;}#bupa[sick_primary > 6]{polygon-fill: #3182bd;}#bupa[sick_primary > 8]{polygon-fill: #08519c;}');
+      return true;
+    },
+    secondary: function(){
+      layer.getSubLayer(0).setCartoCSS('#bupa{polygon-fill: #EFF3FF;}#bupa[sick_secondary > 0]{polygon-fill: #c6dbef;}#bupa[sick_secondary > 2]{polygon-fill: #9ecae1;}#bupa[sick_secondary > 4]{polygon-fill: #6baed6;}#bupa[sick_secondary > 6]{polygon-fill: #3182bd;}#bupa[sick_secondary > 8]{polygon-fill: #08519c;}');
+      return true;
+    },
+    tertiary: function(){
+      layer.getSubLayer(0).setCartoCSS('#bupa{polygon-fill: #EFF3FF;}#bupa[sick_tertiary > 0]{polygon-fill: #c6dbef;}#bupa[sick_tertiary > 2]{polygon-fill: #9ecae1;}#bupa[sick_tertiary > 4]{polygon-fill: #6baed6;}#bupa[sick_tertiary > 6]{polygon-fill: #3182bd;}#bupa[sick_tertiary > 8]{polygon-fill: #08519c;}');
+      return true;
+    }
+  }
+
+ 
+        }).on('error', function() {
+          cartodb.log.log("An error occurred.");
+        })
+    
+      }
+
+      window.onload = main;
+
+    </script>
+
+  </body>
+      </html>

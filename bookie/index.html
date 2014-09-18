@@ -46,7 +46,7 @@
     <script>
      
       var info = document.getElementById('info');   
-      var cons = 'Hertford and Stortford';
+      var cons = 'Totnes';
       var mapboxTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/portland.jd79lfk7/{z}/{x}/{y}.png');
       var map = new L.Map('map', {
                 center: [54.7761,-1.5733],
@@ -86,7 +86,7 @@ function mapzoom (target, maparea) {
     sql.execute(con_query).done(function(panel) {
             info.innerHTML = '<h3>Your Community</h3><label>Constituency:</label><span>' + panel.rows[0].map_value + '</span><label>Number of Bookies:</label><span>' + panel.rows[0].offices + '</span><label>Employees:</label><span>' + panel.rows[0].employees + '</span><label>Member of Parliament:</label><span>' + panel.rows[0].mp + '</span><label>Party:</label><span>' + panel.rows[0].party + '</span>';
           });
-cartodb.createLayer(maparea, {
+/*cartodb.createLayer(maparea, {
   user_name: 'portland',
   type: 'cartodb',
   sublayers: [{
@@ -94,7 +94,7 @@ cartodb.createLayer(maparea, {
     cartocss: '#table_name {line-color: #903795;line-width:2;line-smooth:.5;line-join: round;line-cap: round;}#table_name::glow {line-join: round;line-cap: round;line-color: #903795;line-opacity: 0.5;line-width: 6; line-smooth:.5;}'
   }]
 })
-.addTo(maparea)
+.addTo(maparea)*/
 cartodb.createLayer(maparea, {
   user_name: 'portland',
   type: 'cartodb',
