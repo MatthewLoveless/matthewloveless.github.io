@@ -1,0 +1,48 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <style>
+      #map {
+        height: 558px;
+        width:428px;
+      }
+    </style>
+
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+  </head>
+  <body>
+    <div id="map"></div>
+
+ 
+    <!-- include cartodb.js libraryds -->
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+
+
+    <script>
+      var uk_query = "select * from uk_bookie_data";
+      var mapboxTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/portland.jd79lfk7/{z}/{x}/{y}.png');
+      var map = new L.Map('map', {
+                center: [55.7761,-4.5733],
+                zoom: 5,
+                zoomControl: false,
+                maxZoom: 13,
+                minZoom:5
+                }).addLayer(mapboxTiles);
+      cartodb.createLayer(map, {
+      user_name: 'portland',
+      type: 'cartodb',
+      sublayers: [{
+        sql: uk_query,
+        cartocss: "#table_name {marker-file: url(http://matthewloveless.github.io/bookie/img/marker.png);marker-opacity:1;marker-line-width: 1;marker-line-opacity: 1;marker-placement: point;marker-type: ellipse;marker-allow-overlap: true;marker-width:6;}"
+        }]
+      })
+      .addTo(map)
+      map.dragging.disable();
+      map.touchZoom.disable();
+      map.doubleClickZoom.disable();
+      map.scrollWheelZoom.disable();
+
+
+    </script>
+  </body>
+</html>
