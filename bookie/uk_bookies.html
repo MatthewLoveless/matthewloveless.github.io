@@ -33,14 +33,11 @@
       type: 'cartodb',
       sublayers: [{
         sql: uk_query,
-        cartocss: "#table_name {marker-file: url(http://matthewloveless.github.io/bookie/img/marker.png);marker-opacity:1;marker-line-width: 1;marker-line-opacity: 1;marker-placement: point;marker-type: ellipse;marker-allow-overlap: true;marker-width:6;}"
+        cartocss: "#table_name {marker-opacity:1;marker-line-width: 1;marker-line-opacity: 1;marker-placement: point;marker-type: ellipse;marker-allow-overlap: false;marker-width:3;marker-line-color:#8f3795;marker-fill:#8f3795;}"
         }]
       })
       .addTo(map)
-      map.dragging.disable();
-      map.touchZoom.disable();
-      map.doubleClickZoom.disable();
-      map.scrollWheelZoom.disable();
+
 
 
     </script>
