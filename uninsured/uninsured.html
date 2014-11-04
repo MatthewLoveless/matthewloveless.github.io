@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Insurance Rates by County, 2013-2014</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+</head>
+<body>
+<nav id='menu-ui' class='menu-ui'>
+<a href='#' id='2014' class=''>Uninsured 2014</a>
+<a href='#' id='2013' class=''>Uninsured 2013</a>
+<a href='#' id='change' class='active'>Change 2013-2014</a>
+</nav>
+<div id='map'></div>
+<div id='map-overlay-hawaii'></div>
+<div id='map-overlay-alaska'></div>
+<div id='legend_2014' class='legend' style="display:none">
+<div class="title">Percent Uninsured (2014)</div>
+
+<div class="scale">
+  <ul class="labels">
+<li><span style="background:#feedde;"></span>0% to 5%</li>
+<li><span style="background:#fdbe85;"></span>5% to 10%</li>
+<li><span style="background:#fd8d3c;"></span>10% to 15%</li>
+<li><span style="background:#e6550d;"></span>15% to 20%</li>
+<li><span style="background:#a63603;"></span>Greater than 20%</li>
+
+</ul>
+</div>
+</div>
+<div id='legend_2013' class='legend' style="display:none">
+<div class="title">Percent Uninsured (2013)</div>
+
+<div class="scale">
+  <ul class="labels">
+<li><span style="background:#feedde;"></span>0% to 5%</li>
+<li><span style="background:#fdbe85;"></span>5% to 10%</li>
+<li><span style="background:#fd8d3c;"></span>10% to 15%</li>
+<li><span style="background:#e6550d;"></span>15% to 20%</li>
+<li><span style="background:#a63603;"></span>Greater than 20%</li>
+
+</ul>
+</div>
+</div>
+<div id='legend_change' class='legend'>
+<div class="title">Change in Insured Americans,<br>2013-2014</div>
+<div class="scale">
+  <ul class="labels">
+<li><span style="background:#feedde;"></span>0% to 5%</li>
+<li><span style="background:#fdbe85;"></span>5% to 10%</li>
+<li><span style="background:#fd8d3c;"></span>10% to 15%</li>
+<li><span style="background:#e6550d;"></span>15% to 20%</li>
+<li><span style="background:#a63603;"></span>Greater than 20%</li>
+
+</ul>
+</div>
+</div>
+<style>
+  body { margin:0; padding:0; }
+  #map { position:absolute; top:0; bottom:0; width:100%; }
+  #map-overlay-hawaii {
+      position:absolute;
+      left:10px;
+      bottom:10px;
+      width:200px;
+      height:150px;
+      border:1px solid #fff;
+  }
+  #map-overlay-alaska {
+      position:absolute;
+      left:10px;
+      bottom:175px;
+      width:200px;
+      height:150px;
+      border:1px solid #fff;
+  }
+  .menu-ui {
+  background:#fff;
+  position:absolute;
+  top:10px;right:10px;
+  z-index:1;
+  border-radius:3px;
+  width:120px;
+  border:1px solid rgba(0,0,0,0.4);
+  }
+  .menu-ui a {
+    font-size:13px;
+    color:#404040;
+    display:block;
+    margin:0;padding:0;
+    padding:10px;
+    text-decoration:none;
+    border-bottom:1px solid rgba(0,0,0,0.25);
+    text-align:center;
+    }
+    .menu-ui a:first-child {
+      border-radius:3px 3px 0 0;
+      }
+    .menu-ui a:last-child {
+      border:none;
+      border-radius:0 0 3px 3px;
+      }
+    .menu-ui a:hover {
+      background:#f8f8f8;
+      color:#404040;
+      }
+    .menu-ui a.active {
+      background:#3887BE;
+      color:#FFF;
+      }
+      .menu-ui a.active:hover {
+        background:#3074a4;
+        }
+.legend {
+        
+  float:left;
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  margin: 0;
+  padding: 0;
+  z-index: 100;
+  background-color: #ffffff;
+
+        
+    }
+  .legend .overlay-legend {
+  padding-top: 1px;
+  }
+.legend .title {
+  text-align: left;
+  margin-bottom: 2px;
+  font-weight: bold;
+  font-size: 85%;
+  }
+.legend .scale ul {
+  margin: 0;
+  padding: 0;
+  float: left;
+  }
+.legend .scale ul li {
+  display: block;
+  float: left;
+  width: 29.5px;
+  margin-bottom: 1px;
+  margin-top: 2px;
+  text-align: center;
+  font-size: 60%;
+  line-height: 100%;
+  }
+.legend ul.labels li span {
+  height: 16px;
+  width: 30px;
+  }
+.legend ul li span {
+  display: block;
+  float: left;
+  }
+.legend .source {
+  font-size: 50%;
+  color: #222222;
+  margin-top: 5px;
+  margin-bottom: 1px;
+  clear: both;
+  }
+.attribution a,
+.legend a {
+  color: #63aece;
+  }
+.leaflet-popup-content-wrapper {
+  background-color:rgba(255, 255, 255, 0.8)
+}
+.map-tooltip {
+  background-color:rgba(255, 255, 255, 0.8)
+}
+ß</style>
+<script>
+L.mapbox.accessToken = 'pk.eyJ1IjoiZ2NhIiwiYSI6IjhVdURsWk0ifQ.BV81Ca8XjHz-EB_iXoWcRA';
+var uninsured_2014 = 'gca.uninsured_2013';
+var uninsured_2013 = 'gca.uninsured_2014';
+var change = 'gca.uninsured_difference';
+var options = {
+  legendControl: false
+};
+var hawaiiOptions = {
+    zoomControl: false,
+    attributionControl: false,
+    legendControl: false,
+    interactionControl: false
+};
+var alaskaOptions = {
+    zoomControl: false,
+    attributionControl: false,
+    legendControl: false,
+    interactionControl: false
+};
+
+var map = L.mapbox.map('map',change,options)
+    .fitBounds([[22.917922936146045,-127.265625],[50.28933925329178,-64.3359375]]);
+map.gridControl.options.follow = true;
+
+var mapOverlayHawaii = L.mapbox.map('map-overlay-hawaii',change, hawaiiOptions)
+    .fitBounds([[18.542116654448996,-161.03759765625],[22.573438264572406,-154.22607421875]]);
+
+var mapOverlayAlaska = L.mapbox.map('map-overlay-alaska',change, alaskaOptions)
+    .fitBounds([[51.72702815704774,-170.15625],[71.85622888185527,-127.61718749999999]]);
+
+$('#2014').click(function() {
+    $('#2013').removeClass('active');
+    $('#change').removeClass('active');
+    $('#2014').addClass('active');
+    $('.legend').hide();
+    $('#legend_2014').show();
+    map.removeLayer(L.mapbox.tileLayer(uninsured_2013));
+    map.removeLayer(L.mapbox.tileLayer(change));
+    map.addLayer(L.mapbox.tileLayer(uninsured_2014));
+    mapOverlayAlaska.removeLayer(L.mapbox.tileLayer(uninsured_2013));
+    mapOverlayAlaska.removeLayer(L.mapbox.tileLayer(change));
+    mapOverlayAlaska.addLayer(L.mapbox.tileLayer(uninsured_2014));
+    mapOverlayHawaii.removeLayer(L.mapbox.tileLayer(uninsured_2013));
+    mapOverlayHawaii.removeLayer(L.mapbox.tileLayer(change));
+    mapOverlayHawaii.addLayer(L.mapbox.tileLayer(uninsured_2014));
+  });
+$('#2013').click(function() {
+    $('#2014').removeClass('active');
+    $('#change').removeClass('active');
+    $('#2013').addClass('active');
+    $('.legend').hide();
+    $('#legend_2013').show();
+    map.removeLayer(L.mapbox.tileLayer(uninsured_2014));
+    map.removeLayer(L.mapbox.tileLayer(change));
+    map.addLayer(L.mapbox.tileLayer(uninsured_2013));
+    mapOverlayAlaska.removeLayer(L.mapbox.tileLayer(uninsured_2014));
+    mapOverlayAlaska.removeLayer(L.mapbox.tileLayer(change));
+    mapOverlayAlaska.addLayer(L.mapbox.tileLayer(uninsured_2013));
+    mapOverlayHawaii.removeLayer(L.mapbox.tileLayer(uninsured_2014));
+    mapOverlayHawaii.removeLayer(L.mapbox.tileLayer(change));
+    mapOverlayHawaii.addLayer(L.mapbox.tileLayer(uninsured_2013));
+  });
+$('#change').click(function() {
+    $('#2014').removeClass('active');
+    $('#change').addClass('active');
+    $('#2013').removeClass('active');
+    $('.legend').hide();
+    $('#legend_change').show();
+    map.removeLayer(L.mapbox.tileLayer(uninsured_2013));
+    map.removeLayer(L.mapbox.tileLayer(uninsured_2014));
+    map.addLayer(L.mapbox.tileLayer(change));
+    mapOverlayAlaska.removeLayer(L.mapbox.tileLayer(uninsured_2013));
+    mapOverlayAlaska.removeLayer(L.mapbox.tileLayer(uninsured_2014));
+    mapOverlayAlaska.addLayer(L.mapbox.tileLayer(change));
+    mapOverlayHawaii.removeLayer(L.mapbox.tileLayer(uninsured_2013));
+    mapOverlayHawaiiOverlayHawaii.removeLayer(L.mapbox.tileLayer(uninsured_2014));
+    mapOverlayHawaii.addLayer(L.mapbox.tileLayer(change));
+  });
+
+</script>
+</body>
+</html>
