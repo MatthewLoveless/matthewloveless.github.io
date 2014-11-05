@@ -66,21 +66,21 @@
   #map { position:absolute; top:0; bottom:0; width:100%; }
   #map-overlay-hawaii {
       position:absolute;
-      left:10px;
+      left:320px;
+      bottom:0px;
+      width:200px;
+      height:120px;
+      z-index: 100;
+      background-color:rgba(255, 255, 255, .5);
+  }
+  #map-overlay-alaska {
+      position:absolute;
+      left:40px;
       bottom:10px;
       width:200px;
       height:150px;
       z-index: 100;
-      background-color:rgba(255, 255, 255, 0);
-  }
-  #map-overlay-alaska {
-      position:absolute;
-      left:10px;
-      bottom:175px;
-      width:200px;
-      height:150px;
-      z-index: 100;
-      background-color:rgba(255, 255, 255, 0);
+      background-color:rgba(255, 255, 255, .5);
   }
   .menu-ui {
   background:#fff;
@@ -93,7 +93,7 @@
   font-family: 'Open Sans', sans-serif;
   }
   .menu-ui a {
-    font-size:13px;
+    font-size:11px;
     color:#000;
     display:block;
     margin:0;padding:0;
@@ -178,13 +178,13 @@
   color: #63aece;
   }
 .leaflet-popup-content-wrapper {
-  background-color:rgba(255, 255, 255, 0.8);
   font-family: 'Open Sans', sans-serif;
   z-index: 101;
+  background-color:rgba(255, 255, 255, .8);
 }
 .map-tooltip {
-  background-color:rgba(255, 255, 255, 0.8);
   font-family: 'Open Sans', sans-serif;
+  background-color:rgba(255, 255, 255, .6);
 }
 ß</style>
 <script>
@@ -193,7 +193,10 @@ var uninsured_2014 = 'gca.uninsured_2013';
 var uninsured_2013 = 'gca.uninsured_2014';
 var change = 'gca.uninsured_difference';
 var options = {
-  legendControl: false
+  legendControl: false,
+  minZoom: 4,
+  zoom: 4,
+  center: [37,-91]
 };
 var hawaiiOptions = {
     zoomControl: false,
@@ -207,17 +210,22 @@ var alaskaOptions = {
     legendControl: false,
     interactionControl: false
 };
-
-var map = L.mapbox.map('map',change,options)
-    .fitBounds([[22.917922936146045,-127.265625],[50.28933925329178,-64.3359375]]);
+var map = L.mapbox.map('map',change,options);
 map.gridControl.options.follow = true;
 map.addLayer(L.mapbox.tileLayer('gca.us_states'))
 
 var mapOverlayHawaii = L.mapbox.map('map-overlay-hawaii',change, hawaiiOptions)
     .fitBounds([[18.542116654448996,-161.03759765625],[22.573438264572406,-154.22607421875]]);
-
+mapOverlayHawaii.dragging.disable();
+mapOverlayHawaii.touchZoom.disable();
+mapOverlayHawaii.doubleClickZoom.disable();
+mapOverlayHawaii.scrollWheelZoom.disable();
 var mapOverlayAlaska = L.mapbox.map('map-overlay-alaska',change, alaskaOptions)
     .fitBounds([[51.72702815704774,-170.15625],[71.85622888185527,-127.61718749999999]]);
+mapOverlayAlaska.dragging.disable();
+mapOverlayAlaska.touchZoom.disable();
+mapOverlayAlaska.doubleClickZoom.disable();
+mapOverlayAlaska.scrollWheelZoom.disable();
 
 $('#2014').click(function() {
     $('#2013').removeClass('active');
@@ -228,6 +236,7 @@ $('#2014').click(function() {
     map.removeLayer(L.mapbox.tileLayer(uninsured_2013));
     map.removeLayer(L.mapbox.tileLayer(change));
     map.addLayer(L.mapbox.tileLayer(uninsured_2014));
+    map.addLayer(L.mapbox.tileLayer('gca.us_states'))
     mapOverlayAlaska.removeLayer(L.mapbox.tileLayer(uninsured_2013));
     mapOverlayAlaska.removeLayer(L.mapbox.tileLayer(change));
     mapOverlayAlaska.addLayer(L.mapbox.tileLayer(uninsured_2014));
@@ -244,6 +253,7 @@ $('#2013').click(function() {
     map.removeLayer(L.mapbox.tileLayer(uninsured_2014));
     map.removeLayer(L.mapbox.tileLayer(change));
     map.addLayer(L.mapbox.tileLayer(uninsured_2013));
+    map.addLayer(L.mapbox.tileLayer('gca.us_states'))
     mapOverlayAlaska.removeLayer(L.mapbox.tileLayer(uninsured_2014));
     mapOverlayAlaska.removeLayer(L.mapbox.tileLayer(change));
     mapOverlayAlaska.addLayer(L.mapbox.tileLayer(uninsured_2013));
@@ -260,6 +270,7 @@ $('#change').click(function() {
     map.removeLayer(L.mapbox.tileLayer(uninsured_2013));
     map.removeLayer(L.mapbox.tileLayer(uninsured_2014));
     map.addLayer(L.mapbox.tileLayer(change));
+    map.addLayer(L.mapbox.tileLayer('gca.us_states'))
     mapOverlayAlaska.removeLayer(L.mapbox.tileLayer(uninsured_2013));
     mapOverlayAlaska.removeLayer(L.mapbox.tileLayer(uninsured_2014));
     mapOverlayAlaska.addLayer(L.mapbox.tileLayer(change));
