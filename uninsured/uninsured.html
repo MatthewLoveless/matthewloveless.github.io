@@ -9,6 +9,7 @@
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' />
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body>
 <nav id='menu-ui' class='menu-ui'>
@@ -24,11 +25,11 @@
 
 <div class="scale">
   <ul class="labels">
-<li><span style="background:#feedde;"></span>0% to 5%</li>
-<li><span style="background:#fdbe85;"></span>5% to 10%</li>
-<li><span style="background:#fd8d3c;"></span>10% to 15%</li>
-<li><span style="background:#e6550d;"></span>15% to 20%</li>
-<li><span style="background:#a63603;"></span>Greater than 20%</li>
+<li><span style="background:#feedde;"></span>0% to 10%</li>
+<li><span style="background:#fdbe85;"></span>10% to 12%</li>
+<li><span style="background:#fd8d3c;"></span>12% to 14%</li>
+<li><span style="background:#e6550d;"></span>14% to 16%</li>
+<li><span style="background:#a63603;"></span>Greater than 16%</li>
 
 </ul>
 </div>
@@ -38,11 +39,11 @@
 
 <div class="scale">
   <ul class="labels">
-<li><span style="background:#feedde;"></span>0% to 5%</li>
-<li><span style="background:#fdbe85;"></span>5% to 10%</li>
-<li><span style="background:#fd8d3c;"></span>10% to 15%</li>
-<li><span style="background:#e6550d;"></span>15% to 20%</li>
-<li><span style="background:#a63603;"></span>Greater than 20%</li>
+<li><span style="background:#feedde;"></span>0% to 10%</li>
+<li><span style="background:#fdbe85;"></span>10% to 12%</li>
+<li><span style="background:#fd8d3c;"></span>12% to 14%</li>
+<li><span style="background:#e6550d;"></span>14% to 16%</li>
+<li><span style="background:#a63603;"></span>Greater than 16%</li>
 
 </ul>
 </div>
@@ -69,7 +70,8 @@
       bottom:10px;
       width:200px;
       height:150px;
-      border:1px solid #fff;
+      z-index: 100;
+      background-color:rgba(255, 255, 255, 0);
   }
   #map-overlay-alaska {
       position:absolute;
@@ -77,7 +79,8 @@
       bottom:175px;
       width:200px;
       height:150px;
-      border:1px solid #fff;
+      z-index: 100;
+      background-color:rgba(255, 255, 255, 0);
   }
   .menu-ui {
   background:#fff;
@@ -87,10 +90,11 @@
   border-radius:3px;
   width:120px;
   border:1px solid rgba(0,0,0,0.4);
+  font-family: 'Open Sans', sans-serif;
   }
   .menu-ui a {
     font-size:13px;
-    color:#404040;
+    color:#000;
     display:block;
     margin:0;padding:0;
     padding:10px;
@@ -107,7 +111,7 @@
       }
     .menu-ui a:hover {
       background:#f8f8f8;
-      color:#404040;
+      color:#000;
       }
     .menu-ui a.active {
       background:#3887BE;
@@ -127,7 +131,7 @@
   z-index: 100;
   background-color: #ffffff;
   width:160px;
-
+  font-family: 'Open Sans', sans-serif;
         
     }
   .legend .overlay-legend {
@@ -174,10 +178,13 @@
   color: #63aece;
   }
 .leaflet-popup-content-wrapper {
-  background-color:rgba(255, 255, 255, 0.8)
+  background-color:rgba(255, 255, 255, 0.8);
+  font-family: 'Open Sans', sans-serif;
+  z-index: 101;
 }
 .map-tooltip {
-  background-color:rgba(255, 255, 255, 0.8)
+  background-color:rgba(255, 255, 255, 0.8);
+  font-family: 'Open Sans', sans-serif;
 }
 ß</style>
 <script>
@@ -204,6 +211,7 @@ var alaskaOptions = {
 var map = L.mapbox.map('map',change,options)
     .fitBounds([[22.917922936146045,-127.265625],[50.28933925329178,-64.3359375]]);
 map.gridControl.options.follow = true;
+map.addLayer(L.mapbox.tileLayer('gca.us_states'))
 
 var mapOverlayHawaii = L.mapbox.map('map-overlay-hawaii',change, hawaiiOptions)
     .fitBounds([[18.542116654448996,-161.03759765625],[22.573438264572406,-154.22607421875]]);
