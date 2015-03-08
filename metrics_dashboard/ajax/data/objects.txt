@@ -37,8 +37,7 @@
       "position": "Accountant",
       "salary": "$162,700",
       "start_date": "2008/11/28",
-      "office": "Tokyo",
-      "extn": "5407"
+      "office": "Tokyo"
     },
     {
       "name": "Brielle Williamson",
