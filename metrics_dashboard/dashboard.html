@@ -1,105 +1,187 @@
 <!DOCTYPE html>
+<html>
 <head>
-<title>CfA Org Dashboard</title>
-<link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
-<style type="text/css" class="init">
+  <title> 2015 CfA Org Metrics</title>
+  <link rel="icon" 
+      type="image/png" 
+      href="http://style.codeforamerica.org/style/favicons/16x16/flag-red.png">
+  <script src="js/jquery-1.10.2.min.js"></script>
+  <script src="js/freewall.js"></script>
+  <script src="js/centering.js"></script>
+  <style type="text/css">
+  	#heading {
+  		  font-family: Interstate, 'Gotham A', 'Gotham B', 'Open Sans Regular', Verdana, Helvetica, Arial;
+  		  font-size: 50px;
+		  font-weight: bold;
+		  height: 52px;
+		  letter-spacing: -1px;
+		  line-height: 52px;
+		  text-transform: uppercase;
+		  height: 72px;
+		  margin:auto;
+		  width: 80%;
+		  text-align: center;
+  	}
+    #container {
+      width: 80%;
+      margin: auto;
+    }
+    .text-white {
+    	  color: rgb(255, 255, 255);
 
-td.details-control {
-	background: url('../metrics_dashboard/resources/details_open.png') no-repeat center center;
-	cursor: pointer;
-}
-tr.shown td.details-control {
-	background: url('../metrics_dashboard/resources/details_close.png') no-repeat center center;
-}
+    }
+    .text-black {
+    	  color: rgb(0, 0, 0);
+    }
+    .item {
+      max-width: 320px;
+      height: 320px;
+    }
+    .show {
 
-	</style>
-<script type="text/javascript" language="javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" language="javascript" src="http://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" class="init">
+      background: #cf1b41;
+    }
+    .products {
 
+      background: #399fd3;
+    }
+    .adoptions {
 
-/* Formatting function for row details - modify as you need */
-function format ( d ) {
-	// `d` is the original data object for the row
-	return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
-		'<tr>'+
-			'<td>Full name:</td>'+
-			'<td>'+d.name+'</td>'+
-		'</tr>'+
-		'<tr>'+
-			'<td>Extension number:</td>'+
-			'<td>'+d.extn+'</td>'+
-		'</tr>'+
-		'<tr>'+
-			'<td>Extra info:</td>'+
-			'<td>And any further details here (images etc)...</td>'+
-		'</tr>'+
-	'</table>';
-}
+      background: #6D6E71;
+    }
+    .hired {
+    	background: #e87d2b;
+    }
+    .behavior {
+    	background: #69579C;
+    }
+    .brigades {
+    	background: #00a175;
+    }
+    .value {
+    	font-family: Interstate, 'Gotham A', 'Gotham B', 'Open Sans Regular', Verdana, Helvetica, Arial;
+  		  font-size: 60px;
+		  font-weight: bold;
+		  text-align: center;
+		  margin-bottom: 10px;
 
-$(document).ready(function() {
-	var table = $('#example').DataTable( {
-		"ajax": "http://matthewloveless.github.io/metrics_dashboard/ajax/data/objects.txt",
-		"columns": [
-			{
-				"className":      'details-control',
-				"orderable":      false,
-				"data":           null,
-				"defaultContent": ''
-			},
-			{ "data": "name" },
-			{ "data": "position" },
-			{ "data": "office" },
-			{ "data": "salary" }
-		],
-		"order": [[1, 'asc']],
-		paging: false
-	} );
-	
-	// Add event listener for opening and closing details
-	$('#example tbody').on('click', 'td.details-control', function () {
-		var tr = $(this).closest('tr');
-		var row = table.row( tr );
-
-		if ( row.child.isShown() ) {
-			// This row is already open - close it
-			row.child.hide();
-			tr.removeClass('shown');
-		}
-		else {
-			// Open this row
-			row.child( format(row.data()) ).show();
-			tr.addClass('shown');
-		}
-	} );
-} );
-
-
-	</script>
-<body>
-	<table id="example" class="display" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Salary</th>
-            </tr>
-        </thead>
- 
-        <tfoot>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Salary</th>
-            </tr>
-        </tfoot>
-    </table>
-
-</body>
-
+		  margin-top: 10px;
+    }
+    .metric {
+    	font-family: Interstate, 'Gotham A', 'Gotham B', 'Open Sans Regular', Verdana, Helvetica, Arial;
+  		  font-size: 30px;
+		  letter-spacing: -1px;
+		  line-height: 31px;
+		  text-transform: uppercase;
+		  text-align: center;
+		  height: 93px;
+		  margin-bottom: 10px;
+    }
+    a {
+    	text-decoration: none;
+    }
+    .timestamp {
+    	  font-family: Interstate, 'Gotham A', 'Gotham B', 'Open Sans Regular', Verdana, Helvetica, Arial;
+  		  font-size: 8px;
+		  text-transform: uppercase;
+		  text-align: center;
+    }
+  </style>
 </head>
+<body>
+  <div id="heading">
+  	2015 CfA Org Metrics
+  </div>
+  <div id="container">
+    <div class="item show">
+    	<a href="http://matthewloveless.github.io/metrics_dashboard/show.html" target="_blank">
+    	<p class="text-white metric">
+    		pilot-scale projects
+    	</p>
+    	<p class="text-white value">
+    		2/23
+    	</p>
+    	<p class="text-white timestamp">
+	    		Updated 3/11/2015
+	    	</p>
+    </a>
+    </div>
+    <div class="item products">
+    	<a href="http://matthewloveless.github.io/metrics_dashboard/tools.html" target="_blank">
+    	<p class="text-white metric">
+    		products made available to governments
+    	</p>
+    	<p class="text-white value">
+    		1/10
+    	</p>
+    	<p class="text-white timestamp">
+	    		Updated 3/11/2015
+	    	</p>
+    </a>
+    </div>
+    <div class="item adoptions">
+    	<a href="http://matthewloveless.github.io/metrics_dashboard/tools.html" target="_blank">
+    	<p class="text-white metric">
+    		governments adopting better technology
+    	</p>
+    	<p class="text-white value">
+    		3/42
+    	</p>
+    	<p class="text-white timestamp">
+	    		Updated 3/11/2015
+	    	</p>
+    </a>
+    </div>
+
+    <div class="item hired">
+    	<a href="http://matthewloveless.github.io/metrics_dashboard/people.html" target="_blank">
+    	<p class="text-white metric">
+    		tech people hired by government
+    	</p>
+    	<p class="text-white value">
+    		0/47
+    	</p>
+    	<p class="text-white timestamp">
+	    		Updated 3/11/2015
+	    	</p>
+    </a>
+    </div>
+
+    <div class="item behavior">
+    	<a href="http://matthewloveless.github.io/metrics_dashboard/people.html" target="_blank">
+		<p class="text-white metric">
+    		governments adopting skills and practices
+    	</p>
+    	<p class="text-white value">
+    		0/41
+    	</p>
+    	<p class="text-white timestamp">
+	    		Updated 3/11/2015
+	    	</p>
+    </a>
+    	</div>
+
+    
+    	<div class="item brigades">
+    		<a href="https://app.relateiq.com/#/list:l=54acca99e4b04890aecbcf3b" target="_blank">
+    		<p class="text-white metric">
+    			official Brigade chapters
+	    	</p>
+	    	<p class="text-white value">
+	    		21/52
+	    	</p>
+	    	<p class="text-white timestamp">
+	    		Updated 3/11/2015
+	    	</p>
+	    	</a>
+	    </div>
+	
+  </div>
+  <script>
+    $(function() {
+      var wall = new freewall("#container");
+      wall.fitWidth();
+    });
+  </script>
+</body>
 </html>
